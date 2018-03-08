@@ -1,7 +1,7 @@
 import requests
 import json
 from utils.url_utils import get_url, merge_url
-import exceptions
+from api_exceptions import ApiError
 import os
 
 
@@ -19,9 +19,14 @@ class Api(object):
         else:
             self.url = get_url(mode='live')
 
-    def request(self, method, url, payload, params=None):
+    def __repr__(self):
+        return "{}{}".format(self.mode, self.PUBLIC_KEY)
+
+
+    def request(self, method, url, payload=None, params=None):
         http_header = dict(content_type='application/json')
-        if method == 'POST' or method == 'PUT' or method == 'PATCH':
+        if payload is not None:
+            print()
             response = requests.request(method, url, data=payload, headers=http_header)
         else:
             response = requests.request(method, url, headers=http_header)
@@ -42,7 +47,7 @@ class Api(object):
         if status == 200:
             return json.loads(content) if content else {}
         elif status == 400:
-            raise exceptions.ApiErrors(response, content)
+            raise ApiError(response, content)
 
     def get(self, endpoint, params=None):
         """
@@ -57,7 +62,7 @@ class Api(object):
         """
         Make a POST Request
         """
-        return self.request(merge_url(self.url, endpoint), 'POST', payload)
+        return self.request('POST', merge_url(self.url, endpoint), payload)
 
     def put(self, endpoint, payload):
         """
@@ -67,22 +72,3 @@ class Api(object):
 
     def patch(self, endpoint, payload):
         return self.request(merge_url(self.url, endpoint), 'PATCH', payload)
-
-
-rave_api = None
-
-def default_object():
-    """
-    Returns the default Api object and if it is not present creates a new one
-    :return:
-    """
-    global rave_api
-    if rave_api is None:
-        try:
-            secret_key = os.environ.get('SECRET_KEY')
-            public_key = os.environ.get('PUBLIC_KEY')
-        except KeyError:
-            msg = 'RavePay PUBLIC KEY and SECRET  are required'
-            raise KeyError(msg)
-        rave_api = Api(secret_key=secret_key, public_key=public_key, production=False)
-    return rave_api
