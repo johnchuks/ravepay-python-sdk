@@ -23,10 +23,10 @@ class Card(Create):
             return cls.create(cls.endpoint, api, new_payload)
 
     @classmethod
-    def preauth_card(cls, payload, api):
-        preauth_payload = cls.config(payload, api)
-        if preauth_payload:
-            return cls.create(cls.endpoint, api, preauth_payload)
+    def preauthorize(cls, payload, api):
+        preauthorize_payload = cls.config(payload, api)
+        if preauthorize_payload:
+            return cls.create(cls.endpoint, api, preauthorize_payload)
 
 
 class ValidateCharge(Create):
@@ -62,13 +62,13 @@ class Transaction(Create, List):
         return cls.create(endpoint, api, updated_valid_payload)
 
     @classmethod
-    def list_all(cls, api):
+    def list_all_recurring(cls, api):
         endpoint = '/merchant/subscriptions/list'
         params = dict(seckey=api.SECRET_KEY)
         return cls.list(endpoint, api, params)
 
     @classmethod
-    def list_single(cls, params, api):
+    def list_single_recurring(cls, params, api):
         endpoint = '/merchant/subscriptions/list'
         params = dict(seckey=api.SECRET_KEY, txId=params)
         return cls.list(endpoint, api, params)
@@ -81,3 +81,19 @@ class Refund(Create):
         secret_key_dict = dict(SECKEY=api.SECRET_KEY)
         updated_valid_payload = merge_dict(payload, secret_key_dict)
         return cls.create(endpoint, api, updated_valid_payload)
+
+
+class Bank(Create, List):
+    @classmethod
+    def list_all(cls, api):
+        endpoint = '/flwv3-pug/getpaidx/api/flwpbf-banks.js?json=1'
+        return cls.list(endpoint, api)
+
+    @classmethod
+    def get_forex(cls, payload, api):
+        secret_key_dict = dict(SECKEY=api.SECRET_KEY)
+        updated_valid_payload = merge_dict(payload, secret_key_dict)
+        endpoint = '/flwv3-pug/getpaidx/api/forex'
+        return cls.create(endpoint, api, updated_valid_payload)
+
+

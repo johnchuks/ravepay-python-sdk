@@ -25,21 +25,21 @@ class Api(object):
 
     def request(self, method, url, **kwargs):
         http_header = dict(content_type='application/json')
+
         payload = kwargs.get('payload')
         query_string = kwargs.get('params')
         if payload is not None and query_string is None:
-            print('i am here')
             response = requests.request(
                 method, url, data=payload, headers=http_header)
             print(response.status_code)
             return self.handle_response(response, response.content.decode('utf-8'))
 
-        if payload and query_string is None:
+        if payload is None and query_string is None:
             response = requests.request(method, url, headers=http_header)
             return self.handle_response(response, response.content.decode('utf-8'))
 
         if query_string is not None and payload is None:
-            print('we here here')
+
             response = requests.request(
                 method, url, headers=http_header, params=query_string)
             return self.handle_response(response, response.content.decode('utf-8'))
@@ -63,6 +63,7 @@ class Api(object):
         """
         Make a GET Request
         """
+
         if query_string is not None:
             return self.request('GET', merge_url(self.url, endpoint), payload=None, params=query_string)
         else:

@@ -4,7 +4,7 @@ import json
 from dotenv import find_dotenv, load_dotenv
 from utils.encryption import encrypt_data
 from api import Api
-from services import Card, ValidateCharge, Transaction
+from services import Card, ValidateCharge, Transaction, Bank
 
 url = "http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/charge"
 
@@ -27,16 +27,16 @@ client_payload = {
     "device_fingerprint": "69e6b7f0b72037aa8428b70fbe03986c"
 }
 
-payload = dict(client=client_payload, alg='3DES-24')
-validate_payload = dict(transaction_reference='FLW-MOCK-bad59ea46faf0f0e9935826893c3070b', otp='12345')
-
+# payload = dict(client=client_payload, alg='3DES-24')
+# validate_payload = dict(transaction_reference='FLW-MOCK-bad59ea46faf0f0e9935826893c3070b', otp='12345')
+#
 new_api = Api(secret_key=os.environ.get('SECRET_KEY'),
-    public_key=os.environ.get('PUBLIC_KEY'),
-    production=False)
-
-payment = Card.preauth_card(client_payload, api=new_api)
-# direct_charge = RaveDirectCharge()
-print(payment, 'payment')
+              public_key=os.environ.get('PUBLIC_KEY'),
+              production=False)
+#
+# payment = Card.preauth_card(client_payload, api=new_api)
+# # direct_charge = RaveDirectCharge()
+# print(payment, 'payment')
 # validation = ValidateCharge.card(validate_payload, api=new_api)
 #
 # print(validation, '----->>>>')
@@ -45,9 +45,12 @@ print(payment, 'payment')
 #
 # print(transactions)
 # new_pay = RaveDirectCharge.create_payment(payload, api=new_api)
-# #
+#
 # print(new_pay, '-----------')
-#
-# response = requests.request("POST", url, data=payload)
-#
-# print(response.text)
+payload = {
+    'origin_currency': 'USD',
+    'destination_currency': 'NGN',
+    'amount': '200'
+}
+bank = Bank.get_forex(payload, api=new_api)
+print(bank, '------')

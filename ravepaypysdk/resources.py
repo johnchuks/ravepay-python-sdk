@@ -16,8 +16,12 @@ class Create(object):
 class List(object):
     @classmethod
     def list(cls, endpoint, api, params=None):
+        print(api)
         if params is not None:
             return api.get(endpoint, params)
+        elif params is None:
+            print('i am here')
+            return api.get(endpoint)
 
 
 # class Update(object):
