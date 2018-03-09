@@ -4,8 +4,7 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 
-secure_mode = os.environ.get('MODE')
-SANDBOX = 'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api'
+SANDBOX = 'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com'
 LIVE = 'https://api.ravepay.co/flwv3-pug/getpaidx/api/'
 
 

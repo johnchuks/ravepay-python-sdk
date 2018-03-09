@@ -5,20 +5,21 @@ class Create(object):
             return api.post(endpoint, payload)
 
 
-class Find(object):
-    def find(self, params=None):
-        if params is not None:
-            return self.api.get(endpoint, params)
-        else:
-            return self.api.get(endpoint)
+# class Find(object):
+#     def find(self, params=None):
+#         if params is not None:
+#             return self.api.get(endpoint, params)
+#         else:
+#             return self.api.get(endpoint)
 
 
 class List(object):
-    def list(self, params):
+    @classmethod
+    def list(cls, endpoint, api, params=None):
         if params is not None:
-            return self.api.get(endpoint, params)
+            return api.get(endpoint, params)
 
 
-class Update(object):
-    def update(self, payload):
-        return self.api.put(endpoint, payload)
+# class Update(object):
+#     def update(self, payload):
+#         return self.api.put(endpoint, payload)

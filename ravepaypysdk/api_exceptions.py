@@ -4,7 +4,7 @@ class ApiError(Exception):
         self.response = response
         self.content = content
 
-    def __str__(self):
+    def __repr__(self):
         """
         convert object to string
         :return:
