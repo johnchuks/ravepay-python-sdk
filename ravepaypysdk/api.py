@@ -1,11 +1,14 @@
 import requests
 import json
-from utils.url_utils import get_url, merge_url
+from utils.rave_utils import get_url, merge_url
 from api_exceptions import ApiError
-import os
+
 
 
 class Api(object):
+    """
+    Default Object for RavePay Api
+    """
     SECRET_KEY = None
     PUBLIC_KEY = None
 
@@ -24,6 +27,10 @@ class Api(object):
         return "{}---{}".format(self.title, self.mode)
 
     def request(self, method, url, **kwargs):
+        """
+        handles request to RavePay API
+
+        """
         http_header = dict(content_type='application/json')
 
         payload = kwargs.get('payload')
@@ -39,7 +46,6 @@ class Api(object):
             return self.handle_response(response, response.content.decode('utf-8'))
 
         if query_string is not None and payload is None:
-
             response = requests.request(
                 method, url, headers=http_header, params=query_string)
             return self.handle_response(response, response.content.decode('utf-8'))
@@ -73,6 +79,7 @@ class Api(object):
         """
         Make a POST Request
         """
+        print(merge_url(self.url,endpoint), payload, 'we are here bro')
         return self.request('POST', merge_url(self.url, endpoint), payload=payload)
 
     def put(self, endpoint, payload):

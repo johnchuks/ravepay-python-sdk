@@ -1,29 +1,29 @@
+
 class Create(object):
+    """
+    Utililty for class for POST rest service
+    """
     @classmethod
     def create(cls, endpoint, api, payload=None):
+        """
+        Process POST REST operations
+
+        """
         if payload is not None:
             return api.post(endpoint, payload)
 
 
-# class Find(object):
-#     def find(self, params=None):
-#         if params is not None:
-#             return self.api.get(endpoint, params)
-#         else:
-#             return self.api.get(endpoint)
-
-
 class List(object):
+        """
+        Utililty for class for GET rest service
+        """
     @classmethod
     def list(cls, endpoint, api, params=None):
-        print(api)
+        """
+        Process GET rest operations
+        """
         if params is not None:
             return api.get(endpoint, params)
         elif params is None:
-            print('i am here')
             return api.get(endpoint)
 
-
-# class Update(object):
-#     def update(self, payload):
-#         return self.api.put(endpoint, payload)

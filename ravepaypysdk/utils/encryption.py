@@ -2,10 +2,6 @@ import base64
 import json
 from Crypto.Cipher import DES3
 import hashlib
-import os
-from dotenv import load_dotenv, find_dotenv
-
-load_dotenv(find_dotenv())
 
 
 def get_key(secret_key):
@@ -19,16 +15,11 @@ def get_key(secret_key):
     return secret_key_adjusted_first12 + hashed_secret_key_last_12
 
 
-# def pad(text):
-#     while len(text) % 8 != 0:
-#         text += ' '
-#     return text
-
-
-"""This is the encryption function that encrypts your payload by passing the text and your encryption Key."""
-
-
 def encrypt_data(secret_key, plain_text):
+    """
+    This is the encryption function that encrypts your
+     payload by passing the text and your encryption Key.
+    """
     encrypted_key = get_key(secret_key)
     block_size = 8
     toAdd = len(plain_text) % block_size
