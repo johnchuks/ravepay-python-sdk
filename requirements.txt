@@ -1,6 +1,5 @@
 certifi==2018.1.18
 chardet==3.0.4
-dotenv==0.0.5
 idna==2.6
 pycrypto==2.6.1
 python-dotenv==0.8.2

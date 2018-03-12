@@ -1,17 +1,18 @@
-class ApiErrors(Exception):
+
+class ApiError(Exception):
     def __init__(self, response, content=None):
         self.response = response
         self.content = content
 
-    def __str__(self):
+    def __repr__(self):
         """
         convert object to string
         :return:
         """
-        error_message = 'Error.'
+        error_message = 'Error. '
         if hasattr(self.response, 'status_code'):
             error_message += "Response status code: {}".format(self.response.status_code)
         if self.content is not None:
-            error_message += "Response content: {}".format(self.content)
+            error_message += " Response content: {}".format(self.content)
         return error_message
 
