@@ -1,5 +1,5 @@
-from resources import Create, List
-from utils.rave_utils import merge_dict, initialize_config
+from .resources import Create, List
+from .utils.rave_utils import merge_dict, initialize_config
 
 
 class PreAuthorization(Create):

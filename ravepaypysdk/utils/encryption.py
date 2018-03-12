@@ -22,13 +22,11 @@ def encrypt_data(secret_key, plain_text):
     """
     encrypted_key = get_key(secret_key)
     block_size = 8
-    toAdd = len(plain_text) % block_size
-    pad_diff = block_size - toAdd
+    to_add = len(plain_text) % block_size
+    pad_diff = block_size - to_add
     cipher = DES3.new(encrypted_key, DES3.MODE_ECB)
     plain_text = "{}{}".format(plain_text, "".join(chr(pad_diff) * pad_diff))
     encrypted = base64.b64encode(cipher.encrypt(plain_text))
-    decrypting = base64.b64decode(encrypted)
-    decrypted = cipher.decrypt(decrypting)
     return encrypted
 
 

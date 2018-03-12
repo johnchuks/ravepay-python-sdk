@@ -1,6 +1,6 @@
 import json
 import re
-from utils.encryption import encrypt_data
+from .encryption import encrypt_data
 
 
 SANDBOX = 'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com'

@@ -2,9 +2,11 @@ import requests
 import os
 import json
 from dotenv import find_dotenv, load_dotenv
-from utils.encryption import encrypt_data
-from api import Api
-from services import PreAuthorization, ValidateCharge, Transaction, Bank, Payment
+from ravepaypysdk.utils.encryption import encrypt_data
+from ravepaypysdk.api import Api
+from ravepaypysdk.services import PreAuthorization, ValidateCharge, Transaction, Bank, Payment
+
+load_dotenv(find_dotenv())
 
 url = "http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/charge"
 
@@ -17,7 +19,7 @@ client_payload = {
     "expiryyear": "18",
     "currency": "NGN",
     "pin": "7552",
-    "country": "NG",
+    "country": "GH",
     "amount": "10",
     "email": "user@example.com",
     "phonenumber": "1234555",
