@@ -4,7 +4,6 @@ from utils.rave_utils import get_url, merge_url
 from api_exceptions import ApiError
 
 
-
 class Api(object):
     """
     Default Object for RavePay Api
@@ -38,7 +37,6 @@ class Api(object):
         if payload is not None and query_string is None:
             response = requests.request(
                 method, url, data=payload, headers=http_header)
-            print(response.status_code)
             return self.handle_response(response, response.content.decode('utf-8'))
 
         if payload is None and query_string is None:
@@ -51,12 +49,7 @@ class Api(object):
             return self.handle_response(response, response.content.decode('utf-8'))
 
     def handle_response(self, response, content):
-        """
-        Validate HTTP Response
-        :param response: response object
-        :param content: response content
-        :return: response status and object
-        """
+        """Validate HTTP Response"""
         status = response.status_code
 
         if status == 200:

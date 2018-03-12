@@ -22,9 +22,6 @@ class PreAuthorization(Create):
     def preauthorize_card(cls, payload, api):
         """
         process preauthorization of cards before transactions
-        :param payload:
-        :param api:
-        :return:
         """
         endpoint = '/flwv3-pug/getpaidx/api/charge'
         preauthorize_payload = initialize_config(payload, api)
@@ -35,7 +32,6 @@ class PreAuthorization(Create):
     def void_or_refund(cls, payload, api):
         """
         processes preauthorization of refunds and void transactions
-
         """
         endpoint = '/flwv3-pug/getpaidx/api/refundorvoid'
         secret_key_dict = dict(SECKEY=api.SECRET_KEY)
@@ -65,7 +61,6 @@ class ValidateCharge(Create):
     def account(cls, payload, api):
         """
         Validate direct charge payments made with bank account
-
         """
         account_endpoint = '/flwv3-pug/getpaidx/api/validate'
         public_key_dict = dict(PBFPubKey=api.PUBLIC_KEY)
@@ -102,7 +97,6 @@ class Transaction(Create, List):
     def list_all_recurring(cls, api):
         """
         Gets all recurring transactions
-
         """
         endpoint = '/merchant/subscriptions/list'
         params = dict(seckey=api.SECRET_KEY)
@@ -112,7 +106,6 @@ class Transaction(Create, List):
     def list_single_recurring(cls, params, api):
         """
         Gets a single recurring transaction
-
         """
         endpoint = '/merchant/subscriptions/list'
         params = dict(seckey=api.SECRET_KEY, txId=params)
@@ -122,7 +115,6 @@ class Transaction(Create, List):
     def refund(cls, payload, api):
         """
         Process getting refunds after transaction
-
         """
         endpoint = '/gpx/merchant/transactions/refund'
         secret_key_dict = dict(SECKEY=api.SECRET_KEY)
