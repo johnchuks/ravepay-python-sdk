@@ -4,6 +4,7 @@ from ravepaypysdk.utils.rave_utils import get_url, merge_url
 from ravepaypysdk.api_exceptions import ApiError
 
 
+# noinspection PyMethodMayBeStatic
 class Api(object):
     """
     Default Object for RavePay Api
@@ -23,7 +24,7 @@ class Api(object):
             self.url = get_url(mode='live')
 
     def __repr__(self):
-        return "{}---{}".format(self.title, self.mode)
+        return "{}".format(self.title)
 
     def request(self, method, url, **kwargs):
         """
@@ -46,7 +47,7 @@ class Api(object):
         if query_string is not None and payload is None:
             response = requests.request(
                 method, url, headers=http_header, params=query_string)
-            return self.handle_response(response.status_code, response.content.decode('utf-8'))
+            return self.handle_response(response, response.content.decode('utf-8'))
 
     def handle_response(self, response, content):
         """Validate HTTP Response"""
@@ -72,7 +73,7 @@ class Api(object):
         """
         Make a POST Request
         """
-        print(merge_url(self.url,endpoint), payload, 'we are here bro')
+        # print(merge_url(self.url,endpoint), payload, 'we are here bro')
         return self.request('POST', merge_url(self.url, endpoint), payload=payload)
 
     def put(self, endpoint, payload, query_string=None):
@@ -80,3 +81,4 @@ class Api(object):
         Make a PUT Request
         """
         return self.request('PUT', merge_url(self.url, endpoint), payload, params=query_string)
+

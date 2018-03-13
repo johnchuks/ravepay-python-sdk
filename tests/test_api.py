@@ -1,14 +1,15 @@
 import os
-from dotenv import find_dotenv, load_dotenv
 import unittest
 from unittest.mock import Mock
+
+from dotenv import find_dotenv, load_dotenv
+
 from ravepaypysdk.api import Api
 
 load_dotenv(find_dotenv())
 
 
 class ApiTest(unittest.TestCase):
-
     def setUp(self):
         self.api = Api(
             secret_key=os.environ.get('SECRET_KEY'),
@@ -53,7 +54,6 @@ class ApiTest(unittest.TestCase):
 
         self.api.request = Mock()
 
-
     def test_ravepay_config(self):
         self.api_dev = Api(
             public_key='dummy',
@@ -76,8 +76,9 @@ class ApiTest(unittest.TestCase):
 
         self.api.get(endpoint, params_test)
         self.api.request.assert_called_once_with('GET',
-            'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/merchant/subscriptions/list', params=params_test, payload=None
-        )
+                                                 'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/merchant/subscriptions/list',
+                                                 params=params_test, payload=None
+                                                 )
 
     def test_post(self):
         endpoint = '/flwv3-pug/getpaidx/api/verify'
@@ -94,14 +95,17 @@ class ApiTest(unittest.TestCase):
         self.api.put(endpoint, payload=self.account_attributes, query_string=params)
 
         self.api.request.assert_called_once_with(
-            'PUT', 'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/verify', self.account_attributes, params=params
+            'PUT', 'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/verify',
+            self.account_attributes, params=params
         )
 
     def test_bad_request(self):
-        self.api.request.return_value = {"status":"error","message":"USSD charges can only be done in Ghana Cedis","data":{"code":"ERR","message":"USSD charges can only be done in Ghana Cedis"}}
+        self.api.request.return_value = {"status": "error", "message": "USSD charges can only be done in Ghana Cedis",
+                                         "data": {"code": "ERR",
+                                                  "message": "USSD charges can only be done in Ghana Cedis"}}
         gh_money_charge = self.api.post('/flwv3-pug/getpaidx/api/charge', self.gh_money_payload)
         self.api.request.assert_called_once_with(
-            'POST',"http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/charge",
+            'POST', "http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/charge",
             payload=self.gh_money_payload
         )
         self.assertEqual(gh_money_charge.get('status'), 'error')

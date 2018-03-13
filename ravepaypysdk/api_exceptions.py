@@ -4,7 +4,7 @@ class ApiError(Exception):
         self.response = response
         self.content = content
 
-    def __repr__(self):
+    def __str__(self):
         """
         convert object to string
         :return:
@@ -15,4 +15,5 @@ class ApiError(Exception):
         if self.content is not None:
             error_message += " Response content: {}".format(self.content)
         return error_message
+
 

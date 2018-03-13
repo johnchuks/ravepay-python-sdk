@@ -176,7 +176,7 @@ class Payment(Create):
             return cls.create(cls.endpoint, api, card_payload)
 
     @classmethod
-    def account(cls, payload, api):
+    def bank_account(cls, payload, api):
         """
         Process payment from bank accounts (Only available in Nigeria)
         """

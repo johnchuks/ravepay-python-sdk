@@ -1,3 +1,4 @@
+
 class Create(object):
     """
     Utility for class for POST rest service
@@ -20,7 +21,6 @@ class List(object):
     @classmethod
     def list(cls, endpoint, api, params=None):
         """
-
         Process GET rest operations
         """
         if params is not None:
