@@ -1,10 +1,10 @@
 import requests
 import json
-from utils.rave_utils import get_url, merge_url
-from api_exceptions import ApiError
+from ravepaypysdk.utils.rave_utils import get_url, merge_url
+from ravepaypysdk.api_exceptions import ApiError
 
 
-
+# noinspection PyMethodMayBeStatic
 class Api(object):
     """
     Default Object for RavePay Api
@@ -17,6 +17,9 @@ class Api(object):
         self.PUBLIC_KEY = kwargs.get('public_key')
         self.mode = kwargs.get('production')
         self.title = 'RavePayAPI'
+        self.payload = None
+        self.http_header = None
+        self.query_string = None
 
         if not self.mode:
             self.url = get_url(mode='sandbox')
@@ -24,43 +27,40 @@ class Api(object):
             self.url = get_url(mode='live')
 
     def __repr__(self):
-        return "{}---{}".format(self.title, self.mode)
+        return "{}".format(self.title)
 
     def request(self, method, url, **kwargs):
         """
         handles request to RavePay API
 
         """
-        http_header = dict(content_type='application/json')
+        self.http_header = dict(content_type='application/json')
 
-        payload = kwargs.get('payload')
-        query_string = kwargs.get('params')
-        if payload is not None and query_string is None:
+        self.payload = kwargs.get('payload')
+        self.query_string = kwargs.get('params')
+        print(self.query_string)
+        if self.payload is not None and self.query_string is None:
             response = requests.request(
-                method, url, data=payload, headers=http_header)
-            print(response.status_code)
+                method, url, data=self.payload, headers=self.http_header)
+            print(response.content.decode('utf-8'))
             return self.handle_response(response, response.content.decode('utf-8'))
 
-        if payload is None and query_string is None:
-            response = requests.request(method, url, headers=http_header)
+        if self.payload is None and self.query_string is None:
+            response = requests.request(method, url, headers=self.http_header)
             return self.handle_response(response, response.content.decode('utf-8'))
 
-        if query_string is not None and payload is None:
+        if self.query_string is not None and self.payload is None:
             response = requests.request(
-                method, url, headers=http_header, params=query_string)
+                method, url, headers=self.http_header, params=self.query_string)
             return self.handle_response(response, response.content.decode('utf-8'))
 
     def handle_response(self, response, content):
-        """
-        Validate HTTP Response
-        :param response: response object
-        :param content: response content
-        :return: response status and object
-        """
+        """Validate HTTP Response"""
         status = response.status_code
 
-        if status == 200:
-            return json.loads(content) if content else {}
+        if status == 200 or status == 201:
+            response = dict(status_code=status, content=json.loads(content))
+            return response if content else {}
         elif status == 400:
             api_error = ApiError(response, content)
             return api_error
@@ -79,17 +79,12 @@ class Api(object):
         """
         Make a POST Request
         """
-        print(merge_url(self.url,endpoint), payload, 'we are here bro')
+        # print(merge_url(self.url,endpoint), payload, 'we are here bro')
         return self.request('POST', merge_url(self.url, endpoint), payload=payload)
 
-    def put(self, endpoint, payload):
+    def put(self, endpoint, payload, query_string=None):
         """
         Make a PUT Request
         """
-        return self.request('PUT', merge_url(self.url, endpoint), payload)
+        return self.request('PUT', merge_url(self.url, endpoint), payload, params=query_string)
 
-    def patch(self, endpoint, payload):
-        """
-        Make a PATCH Request
-        """
-        return self.request('PATCH', merge_url(self.url, endpoint), payload)
