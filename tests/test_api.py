@@ -1,6 +1,7 @@
 import os
 import unittest
-from unittest.mock import Mock
+import json
+from unittest.mock import Mock, patch
 
 from dotenv import find_dotenv, load_dotenv
 
@@ -16,6 +17,7 @@ class ApiTest(unittest.TestCase):
             public_key=os.environ.get('PUBLIC_KEY'),
             production=False
         )
+        self.new_api = Api()
         self.account_attributes = {
             "accountnumber": "0690000031",
             "accountbank": "044",
@@ -109,3 +111,37 @@ class ApiTest(unittest.TestCase):
             payload=self.gh_money_payload
         )
         self.assertEqual(gh_money_charge.get('status'), 'error')
+
+    @patch('ravepaypysdk.api.requests.get')
+    def test_request_get(self, mock):
+        mock.return_value.status_code = 200
+        mock.return_value.text =  dict(error=False,cardno='34343', cvv='232', email='jb@gmail.com')
+        path = 'http://jsonplaceholder.typicode.com/posts'
+        params = dict(userId=1)
+        response = self.new_api.request('GET', path, params=params)
+        self.assertEqual(response['status_code'], 200)
+
+    @patch('ravepaypysdk.api.requests.post')
+    def test_request_post(self, mock):
+        mock.return_value.status_code = 201
+        payload = json.dumps(dict(title='rave api', body='sdk for rave', userId=1))
+        path = 'http://jsonplaceholder.typicode.com/posts'
+
+        response = self.new_api.request('POST', path, payload=payload)
+
+        self.assertEqual(response['status_code'], 201)
+
+    @patch('ravepaypysdk.api.requests.get')
+    def test_request_get_without_params(self, mock):
+        mock.return_value.status_code = 200
+        path = 'http://jsonplaceholder.typicode.com/posts'
+
+        response = self.new_api.request('GET', path)
+
+        self.assertEqual(response['status_code'], 200)
+
+
+
+
+
+
