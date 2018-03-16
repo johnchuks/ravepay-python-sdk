@@ -3,7 +3,7 @@
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/johnchuks/RavePay-SDK-Python/badges/quality-score.png?b=sdk-docs)](https://scrutinizer-ci.com/g/johnchuks/RavePay-SDK-Python/?branch=sdk-docs)
 
-[![Code Intelligence Status](https://scrutinizer-ci.com/g/johnchuks/RavePay-SDK-Python/badges/code-intelligence.svg?b=sdk-docs)](https://scrutinizer-ci.com/code-intelligence)
+[![Coverage Status](https://coveralls.io/repos/github/johnchuks/RavePay-SDK-Python/badge.svg?branch=master)](https://coveralls.io/github/johnchuks/RavePay-SDK-Python?branch=master)
 
 [![Code Intelligence Status](https://scrutinizer-ci.com/g/johnchuks/RavePay-SDK-Python/badges/code-intelligence.svg?b=sdk-docs)](https://scrutinizer-ci.com/code-intelligence)
 
@@ -27,14 +27,16 @@ my_api = ravepaypysdk.Api(
 To start using the SDK ensure you have your public key and secret key instantiated with the `Api` object 
 
 ## Payments (RavePay Direct Charge)
+  Import the RavePay Payment module
+  ```
+  from ravepaypysdk import Payment
+  ```
   There are 5 different ways to utilize RavePay's direct charge for payment:
 
   - **Card direct charge**
 
       *Usage*
       ```
-      from ravepaypysdk import Payment
-
       payload = {
           "cardno": "5438898014560229",
           "cvv": "789",
@@ -87,12 +89,15 @@ To start using the SDK ensure you have your public key and secret key instantiat
   - The same format goes for the **USSD**, **MPESA** and **Ghana Mobile Money**. Kindly review the API documentation to get the required field for each transaction
 
 ## Transaction
+    Import the transaction module
+    ```
+    from ravepaypysdk import Transaction
+    ```
 
   - **Verify transaction**
+
       *Usage*
       ```
-      from ravepaypysdk import Transaction
-
       verify_transaction = Transaction.verify(payload, api=my_api)
 
       ```
@@ -125,7 +130,7 @@ To start using the SDK ensure you have your public key and secret key instantiat
      *Payload*
 
 ## Preauthorization 
-  Import the Preauthorization object like so
+  Import the Preauthorization module
   ```
   from ravepaypysdk import Preauthorization
   ```
@@ -156,6 +161,12 @@ To start using the SDK ensure you have your public key and secret key instantiat
     *Payload*
 
  ## Validate Ravepay charges
+    Import the validation module
+
+    ```
+    from ravepaypysdk import ValidateCharge
+
+    ```
 
     This interface helps in validating transaction made through the RavePay platform
 
@@ -176,6 +187,12 @@ To start using the SDK ensure you have your public key and secret key instantiat
 
 ## Miscellanous 
   Miscellanous includes getting the current forex rate and lists of banks supported by the RavePay Platform
+
+  Import the bank module to get list of banks and current forex rates
+
+  ```
+  from ravepaypysdk import Bank
+  ```
 
   - **Get List of Banks**
 
