@@ -1,9 +1,0 @@
-build:
-    tests:
-        override:
-            -
-                command: 'nosetests --with-coverage --cover-erase --cover-package=ravepaypysdk --cover-html'
-                coverage:
-                    file: '.coverage'
-                    config_file: '.coveragerc'
-                    format: 'py-cc'
