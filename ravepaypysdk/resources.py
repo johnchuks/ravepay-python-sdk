@@ -1,4 +1,3 @@
-# pylint:disable=unused_variable
 """
 This module handles all the REST Services for RavePay
 """
@@ -11,6 +10,7 @@ class PreAuthorization(Create):
     """
     Preauthorization for refunds and card transactions
     """
+
     @classmethod
     def capture(cls, payload, api):
         """
@@ -43,11 +43,12 @@ class PreAuthorization(Create):
         updated_void_payload = merge_dict(secret_key_dict, payload)
         return cls.create(endpoint, api, updated_void_payload)
 
-# noinspection PyUnusedLocal
+
 class ValidateCharge(Create):
     """
     Validates Payment transactions for RavePay
     """
+
     @classmethod
     def card(cls, payload, api):
         """
@@ -74,6 +75,7 @@ class Transaction(Create, List):
     """
     Process Transactions with RavePay API
     """
+
     @classmethod
     def verify(cls, payload, api):
         """
@@ -142,6 +144,7 @@ class Bank(Create, List):
     """
     Class for processing bank related information
     """
+
     @classmethod
     def list_all(cls, api):
         """
@@ -159,6 +162,7 @@ class Bank(Create, List):
         updated_valid_payload = merge_dict(payload, secret_key_dict)
         endpoint = '/flwv3-pug/getpaidx/api/forex'
         return cls.create(endpoint, api, updated_valid_payload)
+
 
 class Payment(Create):
     """

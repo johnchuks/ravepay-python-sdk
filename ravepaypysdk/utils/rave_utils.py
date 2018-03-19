@@ -8,6 +8,7 @@ LIVE = 'https://api.ravepay.co'
 
 
 def get_url(mode):
+    """ Function for getting URL based on mode"""
     if mode == 'sandbox':
         return SANDBOX
 
