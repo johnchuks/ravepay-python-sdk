@@ -9,12 +9,12 @@ class Api(object):
     """
     Default Object for RavePay Api
     """
-    SECRET_KEY = None
-    PUBLIC_KEY = None
+    secret_key = None
+    public_key = None
 
     def __init__(self, **kwargs):
-        self.SECRET_KEY = kwargs.get('secret_key')
-        self.PUBLIC_KEY = kwargs.get('public_key')
+        self.secret_key = kwargs.get('secret_key')
+        self.public_key = kwargs.get('public_key')
         self.mode = kwargs.get('production')
         self.title = '**RavePayPYSDK**'
         self.payload = None

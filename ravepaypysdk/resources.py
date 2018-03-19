@@ -13,7 +13,7 @@ class PreAuthorization(Create):
 
         """
         endpoint = '/flwv3-pug/getpaidx/api/capture'
-        secret_key_dict = dict(SECKEY=api.SECRET_KEY)
+        secret_key_dict = dict(SECKEY=api.secret_key)
         capture_payload = merge_dict(payload, secret_key_dict)
         if capture_payload:
             return cls.create(endpoint, api, capture_payload)
@@ -34,7 +34,7 @@ class PreAuthorization(Create):
         processes preauthorization of refunds and void transactions
         """
         endpoint = '/flwv3-pug/getpaidx/api/refundorvoid'
-        secret_key_dict = dict(SECKEY=api.SECRET_KEY)
+        secret_key_dict = dict(SECKEY=api.secret_key)
         updated_void_payload = merge_dict(secret_key_dict, payload)
         return cls.create(endpoint, api, updated_void_payload)
 
@@ -49,7 +49,7 @@ class ValidateCharge(Create):
         Validate direct charge payments made with card
         """
         endpoint = '/flwv3-pug/getpaidx/api/validatecharge'
-        public_key_dict = dict(PBFPubKey=api.PUBLIC_KEY)
+        public_key_dict = dict(PBFPubKey=api.public_key)
         revised_payload = merge_dict(payload, public_key_dict)
         request = cls.create(endpoint, api, revised_payload)
         return request
@@ -60,7 +60,7 @@ class ValidateCharge(Create):
         Validate direct charge payments made with bank account
         """
         account_endpoint = '/flwv3-pug/getpaidx/api/validate'
-        public_key_dict = dict(PBFPubKey=api.PUBLIC_KEY)
+        public_key_dict = dict(PBFPubKey=api.public_key)
         revised_payload = merge_dict(payload, public_key_dict)
         return cls.create(account_endpoint, api, revised_payload)
 
@@ -76,7 +76,7 @@ class Transaction(Create, List):
 
         """
         endpoint = '/flwv3-pug/getpaidx/api/verify'
-        secret_key_dict = dict(SECKEY=api.SECRET_KEY)
+        secret_key_dict = dict(SECKEY=api.secret_key)
         updated_valid_payload = merge_dict(payload, secret_key_dict)
         return cls.create(endpoint, api, updated_valid_payload)
 
@@ -86,7 +86,7 @@ class Transaction(Create, List):
         Verifies a user's transaction with xrequery
         """
         endpoint = '/flwv3-pug/getpaidx/api/xrequery'
-        secret_key_dict = dict(SECKEY=api.SECRET_KEY)
+        secret_key_dict = dict(SECKEY=api.secret_key)
         updated_valid_payload = merge_dict(payload, secret_key_dict)
         return cls.create(endpoint, api, updated_valid_payload)
 
@@ -96,16 +96,17 @@ class Transaction(Create, List):
         Gets all recurring transactions
         """
         endpoint = '/merchant/subscriptions/list'
-        params = dict(seckey=api.SECRET_KEY)
+        params = dict(seckey=api.secret_key)
         return cls.list(endpoint, api, params)
 
     @classmethod
-    def list_single_recurring(cls, params, api):
+    def list_single_recurring(cls, payload, api):
         """
         Gets a single recurring transaction
         """
+        txId = payload.get('txId')
         endpoint = '/merchant/subscriptions/list'
-        params = dict(seckey=api.SECRET_KEY, txId=params)
+        params = dict(seckey=api.secret_key, txId=txId)
         return cls.list(endpoint, api, params)
 
     @classmethod
@@ -114,7 +115,7 @@ class Transaction(Create, List):
         Process getting refunds after transaction
         """
         endpoint = '/gpx/merchant/transactions/refund'
-        secret_key_dict = dict(SECKEY=api.SECRET_KEY)
+        secret_key_dict = dict(SECKEY=api.secret_key)
         updated_valid_payload = merge_dict(payload, secret_key_dict)
         return cls.create(endpoint, api, updated_valid_payload)
 
@@ -124,7 +125,7 @@ class Transaction(Create, List):
         processes stop recurring payment transacyions
         """
         endpoint = "/merchant/subscriptions/stop"
-        secret_key_dict = dict(seckey=api.SECRET_KEY)
+        secret_key_dict = dict(seckey=api.secret_key)
         id = payload.get('id')
         if not id:
             return KeyError('Id field is required for this transaction')
@@ -149,7 +150,7 @@ class Bank(Create, List):
         """
         Get current forex exchange rates
         """
-        secret_key_dict = dict(SECKEY=api.SECRET_KEY)
+        secret_key_dict = dict(SECKEY=api.secret_key)
         updated_valid_payload = merge_dict(payload, secret_key_dict)
         endpoint = '/flwv3-pug/getpaidx/api/forex'
         return cls.create(endpoint, api, updated_valid_payload)
@@ -231,7 +232,7 @@ class Payment(Create):
         This function allows users let their card be charged with tokens
         """
         endpoint = 'flwv3-pug/getpaidx/api/tokenized/charge'
-        secret_key_dict = dict(SECKEY=api.SECRET_KEY)
+        secret_key_dict = dict(SECKEY=api.secret_key)
         email = payload.get('email')
         token_payload = merge_dict(secret_key_dict, payload)
         if not email:

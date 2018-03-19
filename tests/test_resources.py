@@ -76,7 +76,7 @@ class TestTransaction(unittest.TestCase):
 class TestPayment(unittest.TestCase):
     def setUp(self):
         self.new_api = Api(
-            secret_key=os.environ.get('SECRET_KEY'),
+            secret_key=os.environ.get('secret_key'),
             public_key='dummy',
             production=False
         )
@@ -148,7 +148,7 @@ class TestPayment(unittest.TestCase):
 class TestBank(unittest.TestCase):
     def setUp(self):
         self.api = Api(
-            secret_key=os.environ.get('SECRET_KEY'),
+            secret_key=os.environ.get('secret_key'),
             public_key='dummy',
             production=False
         )
@@ -179,7 +179,7 @@ class TestBank(unittest.TestCase):
 class TestPreauthorization(unittest.TestCase):
     def setUp(self):
         self.api = Api(
-            secret_key=os.environ.get('SECRET_KEY'),
+            secret_key=os.environ.get('secret_key'),
             public_key='dummy',
             production=False
         )
@@ -223,7 +223,7 @@ class TestPreauthorization(unittest.TestCase):
 class TestValidateCharge(unittest.TestCase):
     def setUp(self):
         self.api = Api(
-            secret_key=os.environ.get('SECRET_KEY'),
+            secret_key=os.environ.get('secret_key'),
             public_key='dummy',
             production=False
         )

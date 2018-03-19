@@ -14,8 +14,8 @@ The RavePay Python SDK provides APIs to create, process and manage payments on t
 import ravepaypysdk
 
 my_api = ravepaypysdk.Api(
-          SECRET_KEY='ravepay_secret_key'
-          PUBLIC_KEY='ravepay_public_key'
+          secret_key='ravepay_secret_key'
+          public_key='ravepay_public_key'
           production=False # sandbox # or True # Live
         )
 ```

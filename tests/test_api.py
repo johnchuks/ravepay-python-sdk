@@ -13,8 +13,8 @@ load_dotenv(find_dotenv())
 class ApiTest(unittest.TestCase):
     def setUp(self):
         self.api = Api(
-            secret_key=os.environ.get('SECRET_KEY'),
-            public_key=os.environ.get('PUBLIC_KEY'),
+            secret_key=os.environ.get('secret_key'),
+            public_key=os.environ.get('public_key'),
             production=False
         )
         self.new_api = Api()
@@ -69,11 +69,11 @@ class ApiTest(unittest.TestCase):
         )
         self.assertEqual(self.api_dev.url, 'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com')
         self.assertEqual(self.api_live.url, 'https://api.ravepay.co')
-        self.assertEqual(self.api_dev.SECRET_KEY, 'dummy')
-        self.assertEqual(self.api_dev.PUBLIC_KEY, 'dummy')
+        self.assertEqual(self.api_dev.secret_key, 'dummy')
+        self.assertEqual(self.api_dev.public_key, 'dummy')
 
     def test_get(self):
-        params_test = dict(SECKEY=os.environ.get('SECRET_KEY'))
+        params_test = dict(SECKEY=os.environ.get('secret_key'))
         endpoint = '/merchant/subscriptions/list'
 
         self.api.get(endpoint, params_test)
@@ -93,7 +93,7 @@ class ApiTest(unittest.TestCase):
 
     def test_put(self):
         endpoint = '/flwv3-pug/getpaidx/api/verify'
-        params = dict(SECKEY=os.environ.get('SECRET_KEY'))
+        params = dict(SECKEY=os.environ.get('secret_key'))
         self.api.put(endpoint, payload=self.account_attributes, query_string=params)
 
         self.api.request.assert_called_once_with(
