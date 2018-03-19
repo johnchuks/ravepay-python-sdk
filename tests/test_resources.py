@@ -19,10 +19,12 @@ class TestTransaction(unittest.TestCase):
 
     @patch('ravepaypysdk.resources.List.list')
     def test_single_recurring_transaction(self, mock):
-        self.txId = 1
+        self.single_recurring_transac_payload = {
+            "txId": 1
+        }
         mc = mock.return_value
         mc.list.return_value = True
-        result = Transaction.list_single_recurring(self.txId, api=self.new_api)
+        result = Transaction.list_single_recurring(self.single_recurring_transac_payload, api=self.new_api)
         mock.assert_called_once_with('/merchant/subscriptions/list', self.new_api, {'seckey': 'dummy', 'txId': 1})
         self.assertTrue(result)
 
