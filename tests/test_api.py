@@ -97,8 +97,8 @@ class ApiTest(unittest.TestCase):
         self.api.put(endpoint, payload=self.account_attributes, query_string=params)
 
         self.api.request.assert_called_once_with(
-            'PUT', 'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/verify',
-            self.account_attributes, params=params
+            'PUT', 'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/verify', params=params,
+            payload=self.account_attributes,
         )
 
     def test_bad_request(self):

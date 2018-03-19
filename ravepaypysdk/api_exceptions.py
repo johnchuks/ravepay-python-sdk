@@ -1,5 +1,5 @@
 
-class ApiError(Exception):
+class ApiError(object):
     def __init__(self, response, content=None):
         self.response = response
         self.content = content

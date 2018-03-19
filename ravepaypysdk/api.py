@@ -16,7 +16,7 @@ class Api(object):
         self.SECRET_KEY = kwargs.get('secret_key')
         self.PUBLIC_KEY = kwargs.get('public_key')
         self.mode = kwargs.get('production')
-        self.title = 'RavePayAPI'
+        self.title = '**RavePayPYSDK**'
         self.payload = None
         self.http_header = None
         self.query_string = None
@@ -60,7 +60,10 @@ class Api(object):
 
         if status == 200 or status == 201:
             response = dict(status_code=status, content=json.loads(content))
-            return response if content else {}
+            if content:
+                return response
+            else:
+                return {}
         elif status == 400:
             api_error = ApiError(response, content)
             return api_error
@@ -79,12 +82,11 @@ class Api(object):
         """
         Make a POST Request
         """
-        # print(merge_url(self.url,endpoint), payload, 'we are here bro')
         return self.request('POST', merge_url(self.url, endpoint), payload=payload)
 
     def put(self, endpoint, payload, query_string=None):
         """
         Make a PUT Request
         """
-        return self.request('PUT', merge_url(self.url, endpoint), payload, params=query_string)
+        return self.request('PUT', merge_url(self.url, endpoint), payload=payload, params=query_string)
 

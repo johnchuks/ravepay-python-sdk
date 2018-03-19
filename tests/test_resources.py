@@ -3,7 +3,7 @@ import unittest
 from unittest.mock import patch
 from dotenv import load_dotenv, find_dotenv
 from ravepaypysdk.api import Api
-from ravepaypysdk.services import Transaction, Payment, Bank, PreAuthorization, ValidateCharge
+from ravepaypysdk.resources import Transaction, Payment, Bank, PreAuthorization, ValidateCharge
 
 load_dotenv(find_dotenv())
 
