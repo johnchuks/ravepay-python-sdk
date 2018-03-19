@@ -1,8 +1,8 @@
 # RavePay-SDK-Python
 [![Build Status](https://travis-ci.org/johnchuks/RavePay-SDK-Python.svg?branch=master)](https://travis-ci.org/johnchuks/RavePay-SDK-Python)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/johnchuks/RavePay-SDK-Python/badges/quality-score.png?b=sdk-docs)](https://scrutinizer-ci.com/g/johnchuks/RavePay-SDK-Python/?branch=sdk-docs)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/johnchuks/RavePay-SDK-Python/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/johnchuks/RavePay-SDK-Python/?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/johnchuks/RavePay-SDK-Python/badge.svg?branch=master)](https://coveralls.io/github/johnchuks/RavePay-SDK-Python?branch=master)
-[![Code Intelligence Status](https://scrutinizer-ci.com/g/johnchuks/RavePay-SDK-Python/badges/code-intelligence.svg?b=sdk-docs)](https://scrutinizer-ci.com/code-intelligence)
+[![Code Intelligence Status](https://scrutinizer-ci.com/g/johnchuks/RavePay-SDK-Python/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
 
 The RavePay Python SDK provides APIs to create, process and manage payments on the RavePay platform. The SDK fully supports the API
 
