@@ -4,7 +4,7 @@ import json
 from dotenv import find_dotenv, load_dotenv
 from ravepaypysdk.utils.encryption import encrypt_data
 from ravepaypysdk.api import Api
-from ravepaypysdk.services import PreAuthorization, ValidateCharge, Transaction, Bank, Payment
+from ravepaypysdk.resources import PreAuthorization, ValidateCharge, Transaction, Bank, Payment
 
 load_dotenv(find_dotenv())
 
@@ -55,7 +55,7 @@ payload = dict(PBFPubKey=os.environ.get('PUBLIC_KEY'), client=encrypted_payload,
 new_api = Api(secret_key=os.environ.get('SECRET_KEY'),
               public_key=os.environ.get('PUBLIC_KEY'),
                             production=False)
-payment= Payment.account(account_payload, api=new_api)
+payment= Payment.bank_account(account_payload, api=new_api)
 print(payment, 'lllllll')
 # payload = {
 #     'origin_currency': 'USD',
