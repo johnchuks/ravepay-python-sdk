@@ -1,4 +1,7 @@
-
+"""
+This module contains the helper class
+for REST services
+"""
 class Create(object):
     """
     Utility for class for POST rest service

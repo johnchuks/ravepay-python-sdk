@@ -1,10 +1,15 @@
-import requests
+"""
+This module contains the default API
+object for the SDK. It contains the request handlers and
+response handler respectively
+"""
+
 import json
-from ravepaypysdk.utils.rave_utils import get_url, merge_url
+import requests
 from ravepaypysdk.api_exceptions import ApiError
+from ravepaypysdk.utils.rave_utils import get_url, merge_url
 
 
-# noinspection PyMethodMayBeStatic
 class Api(object):
     """
     Default Object for RavePay Api
@@ -18,7 +23,6 @@ class Api(object):
         self.mode = kwargs.get('production')
         self.title = '**RavePayPYSDK**'
         self.payload = None
-        self.http_header = None
         self.query_string = None
 
         if not self.mode:
@@ -29,32 +33,8 @@ class Api(object):
     def __repr__(self):
         return "{}".format(self.title)
 
-    def request(self, method, url, **kwargs):
-        """
-        handles request to RavePay API
-
-        """
-        self.http_header = dict(content_type='application/json')
-
-        self.payload = kwargs.get('payload')
-        self.query_string = kwargs.get('params')
-        print(self.query_string)
-        if self.payload is not None and self.query_string is None:
-            response = requests.request(
-                method, url, data=self.payload, headers=self.http_header)
-            print(response.content.decode('utf-8'))
-            return self.handle_response(response, response.content.decode('utf-8'))
-
-        if self.payload is None and self.query_string is None:
-            response = requests.request(method, url, headers=self.http_header)
-            return self.handle_response(response, response.content.decode('utf-8'))
-
-        if self.query_string is not None and self.payload is None:
-            response = requests.request(
-                method, url, headers=self.http_header, params=self.query_string)
-            return self.handle_response(response, response.content.decode('utf-8'))
-
-    def handle_response(self, response, content):
+    @staticmethod
+    def handle_response(response, content):
         """Validate HTTP Response"""
         status = response.status_code
 
@@ -62,11 +42,34 @@ class Api(object):
             response = dict(status_code=status, content=json.loads(content))
             if content:
                 return response
-            else:
-                return {}
+            return {}
         elif status == 400:
             api_error = ApiError(response, content)
             return api_error
+
+    def request(self, method, url, **kwargs):
+        """
+        handles request to RavePay API
+
+        """
+        http_header = dict(content_type='application/json')
+
+        self.payload = kwargs.get('payload')
+        self.query_string = kwargs.get('params')
+        if self.payload is not None and self.query_string is None:
+            response = requests.request(
+                method, url, data=self.payload, headers=http_header)
+            print(response.content.decode('utf-8'))
+            return Api.handle_response(response, response.content.decode('utf-8'))
+
+        if self.payload is None and self.query_string is None:
+            response = requests.request(method, url, headers=http_header)
+            return Api.handle_response(response, response.content.decode('utf-8'))
+
+        if self.query_string is not None and self.payload is None:
+            response = requests.request(
+                method, url, headers=self.http_header, params=query_string)
+            return Api.handle_response(response, response.content.decode('utf-8'))
 
     def get(self, endpoint, query_string=None):
         """
@@ -74,19 +77,29 @@ class Api(object):
         """
 
         if query_string is not None:
-            return self.request('GET', merge_url(self.url, endpoint), payload=None, params=query_string)
-        else:
-            return self.request('GET', merge_url(self.url, endpoint), payload=None, params=None)
+            return self.request(
+                'GET', merge_url(self.url, endpoint),
+                payload=None, params=query_string)
+        return self.request(
+            'GET', merge_url(self.url, endpoint),
+            payload=None, params=None
+        )
 
     def post(self, endpoint, payload):
         """
         Make a POST Request
         """
-        return self.request('POST', merge_url(self.url, endpoint), payload=payload)
+        return self.request(
+            'POST',
+            merge_url(self.url, endpoint), payload=payload
+        )
 
     def put(self, endpoint, payload, query_string=None):
         """
         Make a PUT Request
         """
-        return self.request('PUT', merge_url(self.url, endpoint), payload=payload, params=query_string)
-
+        return self.request(
+            'PUT',
+            merge_url(self.url, endpoint),
+            payload=payload, params=query_string
+        )

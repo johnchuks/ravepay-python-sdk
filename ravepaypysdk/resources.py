@@ -1,7 +1,11 @@
+"""
+This module handles all the REST Services for RavePay
+"""
+
 from .helpers import Create, List
 from .utils.rave_utils import merge_dict, initialize_config
 
-
+# noinspection PyUnusedLocal
 class PreAuthorization(Create):
     """
     Preauthorization for refunds and card transactions
@@ -38,7 +42,7 @@ class PreAuthorization(Create):
         updated_void_payload = merge_dict(secret_key_dict, payload)
         return cls.create(endpoint, api, updated_void_payload)
 
-
+# noinspection PyUnusedLocal
 class ValidateCharge(Create):
     """
     Validates Payment transactions for RavePay
@@ -65,6 +69,7 @@ class ValidateCharge(Create):
         return cls.create(account_endpoint, api, revised_payload)
 
 
+# noinspection PyUnusedLocal
 class Transaction(Create, List):
     """
     Process Transactions with RavePay API
@@ -104,9 +109,9 @@ class Transaction(Create, List):
         """
         Gets a single recurring transaction
         """
-        txId = payload.get('txId')
+        tx_id = payload.get('txId')
         endpoint = '/merchant/subscriptions/list'
-        params = dict(seckey=api.secret_key, txId=txId)
+        params = dict(seckey=api.secret_key, txId=tx_id)
         return cls.list(endpoint, api, params)
 
     @classmethod
@@ -126,13 +131,13 @@ class Transaction(Create, List):
         """
         endpoint = "/merchant/subscriptions/stop"
         secret_key_dict = dict(seckey=api.secret_key)
-        id = payload.get('id')
-        if not id:
+        merchant_id = payload.get('id')
+        if not merchant_id:
             return KeyError('Id field is required for this transaction')
         updated_payload = merge_dict(secret_key_dict, payload)
         return cls.create(endpoint, api, updated_payload)
 
-
+# noinspection PyUnusedLocal
 class Bank(Create, List):
     """
     Class for processing bank related information
@@ -155,7 +160,7 @@ class Bank(Create, List):
         endpoint = '/flwv3-pug/getpaidx/api/forex'
         return cls.create(endpoint, api, updated_valid_payload)
 
-
+# noinspection PyUnusedLocal
 class Payment(Create):
     """
     Class for processing rave direct charge payments
@@ -168,7 +173,8 @@ class Payment(Create):
         Process direct charge payment from cards
         """
         if not (payload.get('cardno') and payload.get('cvv')):
-            raise KeyError('Card number and CVV are required for card transactions. Kindly check your payload')
+            raise KeyError('Card number and CVV are  \
+            required for card transactions. Kindly check your payload')
         else:
             card_payload = initialize_config(payload, api)
             return cls.create(cls.endpoint, api, card_payload)
@@ -182,7 +188,8 @@ class Payment(Create):
         account_bank = payload.get('accountbank')
         if not (account_bank and account_number):
             raise KeyError(
-                'Account number and bank are required fields for this transaction. Kindly check the documentation')
+                'Account number and bank are required fields \
+                 for this transaction.Kindly check the documentation')
         else:
             account_payload = initialize_config(payload, api)
             return cls.create(cls.endpoint, api, account_payload)
@@ -208,7 +215,8 @@ class Payment(Create):
         gh_mobile = payload.get('is_mobile_money_gh')
         payment_type = payload.get('payment-type')
         if not (gh_mobile and payment_type == 'mobilemoneygh'):
-            raise KeyError('Ghana mobile money fields are required for this transaction')
+            raise KeyError('Ghana mobile money fields are required \
+             for this transaction')
         else:
             gh_mobile_money_payload = initialize_config(payload, api)
             return cls.create(cls.endpoint, api, gh_mobile_money_payload)
@@ -221,7 +229,8 @@ class Payment(Create):
         is_ussd = payload.get('is_ussd')
         payment_type = payload.get('payment_type')
         if not (is_ussd and payment_type == 'ussd'):
-            raise KeyError('USSD fields are required for this transaction. Check your payload')
+            raise KeyError('USSD fields are required for this transaction.\
+             Check your payload')
         else:
             ussd_payload = initialize_config(payload, api)
             return cls.create(cls.endpoint, api, ussd_payload)
@@ -236,5 +245,6 @@ class Payment(Create):
         email = payload.get('email')
         token_payload = merge_dict(secret_key_dict, payload)
         if not email:
-            raise KeyError('You need to pass the same email used in the initial charge')
+            raise KeyError('You need to pass the same email \
+             used in the initial charge')
         return cls.create(endpoint, api, token_payload)
