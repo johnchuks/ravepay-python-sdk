@@ -3,4 +3,5 @@ checks:
 filter:
   excluded_paths:
     - tests/*
+    - site-packages/*
 
