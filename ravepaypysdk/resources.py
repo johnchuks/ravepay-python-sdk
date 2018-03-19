@@ -1,3 +1,4 @@
+# pylint:disable=unused_variable
 """
 This module handles all the REST Services for RavePay
 """

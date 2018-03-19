@@ -5,11 +5,14 @@ response handler respectively
 """
 
 import json
+
 import requests
+
 from ravepaypysdk.api_exceptions import ApiError
 from ravepaypysdk.utils.rave_utils import get_url, merge_url
 
 
+# pylint:disable=unused_variable
 class Api(object):
     """
     Default Object for RavePay Api
@@ -68,7 +71,7 @@ class Api(object):
 
         if self.query_string is not None and self.payload is None:
             response = requests.request(
-                method, url, headers=self.http_header, params=query_string)
+                method, url, headers=self.http_header, params=self.query_string)
             return Api.handle_response(response, response.content.decode('utf-8'))
 
     def get(self, endpoint, query_string=None):
