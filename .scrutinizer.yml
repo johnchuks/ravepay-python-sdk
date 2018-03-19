@@ -7,8 +7,8 @@ checks:
         classes_bad_classmethod_argument: true
         code_rating: true
         duplicate_code: true
-        variables_unused_variable: true
-        variables_unused_import: true
+        variables_unused_variable: false
+        variables_unused_import: false
         variables_unused_wildcard_import: true
         variables_unused_argument: true
         variables_global_variable_not_assigned: true
