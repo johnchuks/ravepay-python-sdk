@@ -5,7 +5,7 @@ This module handles all the REST Services for RavePay
 from .helpers import Create, List
 from .utils.rave_utils import merge_dict, initialize_config
 
-# noinspection PyUnusedLocal
+
 class PreAuthorization(Create):
     """
     Preauthorization for refunds and card transactions
@@ -69,7 +69,6 @@ class ValidateCharge(Create):
         return cls.create(account_endpoint, api, revised_payload)
 
 
-# noinspection PyUnusedLocal
 class Transaction(Create, List):
     """
     Process Transactions with RavePay API
@@ -137,7 +136,7 @@ class Transaction(Create, List):
         updated_payload = merge_dict(secret_key_dict, payload)
         return cls.create(endpoint, api, updated_payload)
 
-# noinspection PyUnusedLocal
+
 class Bank(Create, List):
     """
     Class for processing bank related information
@@ -160,7 +159,6 @@ class Bank(Create, List):
         endpoint = '/flwv3-pug/getpaidx/api/forex'
         return cls.create(endpoint, api, updated_valid_payload)
 
-# noinspection PyUnusedLocal
 class Payment(Create):
     """
     Class for processing rave direct charge payments
