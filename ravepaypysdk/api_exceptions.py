@@ -1,3 +1,6 @@
+""" Exception module for returning error message
+from RavePay"""
+
 class ApiError(object):
     """Error Class"""
 

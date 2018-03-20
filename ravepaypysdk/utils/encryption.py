@@ -1,3 +1,5 @@
+""" Module for encrypting payload sent for payment authorization """
+
 import base64
 import hashlib
 

@@ -1,3 +1,5 @@
+""" Module for various utility or service functions"""
+
 import json
 import re
 from .encryption import encrypt_data
