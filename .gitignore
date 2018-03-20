@@ -8,3 +8,4 @@ cover/
 /*.egg-info
 /*.egg
 /*.eggs
+test-env/

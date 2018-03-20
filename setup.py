@@ -8,7 +8,7 @@ except ImportError:
     read_md_file = lambda f: open(f, 'r').read()
 
 setup(name='ravepaypysdk',
-      version='1.1',
+      version='0.1',
       description='A Python library to consume the RavePay API',
       long_description=read_md_file('README.md'),
       url='https://github.com/johnchuks/RavePay-SDK-Python',
@@ -20,8 +20,6 @@ setup(name='ravepaypysdk',
           'Development Status :: 4 - Beta',
           'Intended Audience :: Developers',
           'License :: OSI APPROVED :: MIT License',
-          'Programming Language :: Python :: 2',
-          'Programming Language :: Python :: 2.6',
           'Programming Language :: Python :: 2.7',
           'Programming Language :: Python :: 3',
           'Programming Language :: Python :: 3.3',
@@ -37,5 +35,5 @@ setup(name='ravepaypysdk',
       test_requires=['nose'],
       extras_require={
           'test': ['coverage']
-      }
-      zip_safe = False)
+      },
+      zip_safe=False)
