@@ -169,6 +169,7 @@ To start using the SDK ensure you have your public key and secret key instantiat
       ```
 
   - **List all recurring transactions**
+
     *Usage*
     ```
     list_transactions  = Transaction.list_all_recurring(api=my_api)
@@ -176,6 +177,7 @@ To start using the SDK ensure you have your public key and secret key instantiat
 
 
   - **List single recurring transactions**
+  
     *Usage*
     ```
     payload = {

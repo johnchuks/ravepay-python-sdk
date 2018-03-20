@@ -5,3 +5,6 @@
 .idea/
 .coverage
 cover/
+/*.egg-info
+/*.egg
+/*.eggs
