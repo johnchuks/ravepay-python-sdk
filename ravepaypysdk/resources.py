@@ -135,9 +135,10 @@ class Transaction(Create, List):
         secret_key_dict = dict(seckey=api.secret_key)
         merchant_id = payload.get('id')
         if not merchant_id:
-            return KeyError('Id field is required for this transaction')
-        updated_payload = merge_dict(secret_key_dict, payload)
-        return cls.create(endpoint, api, updated_payload)
+            raise KeyError('Id field is required for this transaction')
+        else:
+            updated_payload = merge_dict(secret_key_dict, payload)
+            return cls.create(endpoint, api, updated_payload)
 
 
 class Bank(Create, List):

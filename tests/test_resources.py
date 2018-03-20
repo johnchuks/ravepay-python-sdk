@@ -55,8 +55,8 @@ class TestTransaction(unittest.TestCase):
         self.assertTrue(response)
 
     def test_stop_recurring_payment_exception(self):
-        payload = dict(error=False)
-        self.assertRaises(KeyError, Transaction.stop_recurring_payment,payload, api=self.new_api)
+        payload = dict(error=False, )
+        self.assertRaises(KeyError, Transaction.stop_recurring_payment, payload, api=self.new_api)
 
     @patch('ravepaypysdk.resources.Create.create')
     def test_verify_transaction(self, mock):
