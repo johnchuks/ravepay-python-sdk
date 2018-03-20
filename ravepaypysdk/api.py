@@ -44,16 +44,12 @@ class Api(object):
             response = dict(status_code=status, content=json.loads(content))
             if content:
                 return response
-            return {}
         elif status == 400:
             api_error = ApiError(response, content)
             return api_error
 
     def request(self, method, url, **kwargs):
-        """
-        handles request to RavePay API
-
-        """
+        """handles request to RavePay API"""
         http_header = dict(content_type='application/json')
 
         self.payload = kwargs.get('payload')

@@ -1,11 +1,13 @@
 import os
 import unittest
 import json
+from collections import namedtuple
 from unittest.mock import Mock, patch
 
 from dotenv import find_dotenv, load_dotenv
 
 from ravepaypysdk.api import Api
+from ravepaypysdk.api_exceptions import ApiError
 
 load_dotenv(find_dotenv())
 
@@ -56,6 +58,7 @@ class ApiTest(unittest.TestCase):
 
         self.api.request = Mock()
 
+
     def test_ravepay_config(self):
         self.api_dev = Api(
             public_key='dummy',
@@ -81,6 +84,11 @@ class ApiTest(unittest.TestCase):
                                                  'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/merchant/subscriptions/list',
                                                  params=params_test, payload=None
                                                  )
+    def test_get_without_params(self):
+        endpoint = '/merchant/subscriptions/list'
+        self.api.get(endpoint)
+        self.api.request.assert_called_once_with('GET', 'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/merchant/subscriptions/list',
+                                                 params=None, payload=None)
 
     def test_post(self):
         endpoint = '/flwv3-pug/getpaidx/api/verify'
@@ -139,6 +147,18 @@ class ApiTest(unittest.TestCase):
         response = self.new_api.request('GET', path)
 
         self.assertEqual(response['status_code'], 200)
+
+    @patch('ravepaypysdk.api_exceptions.ApiError')
+    def test_handle_error(self, mock):
+        self.Response = namedtuple('Response', 'status_code')
+        response = self.Response(status_code=400)
+        content = json.dumps(dict(title='rave api', body='sdk for rave', userId=1))
+        status_code = 400
+        Api.handle_response(response, content)
+        self.assertEqual(response.status_code, 400)
+
+    def test_repr(self):
+        self.assertEqual(repr(self.api), '**RavePayPYSDK**')
 
 
 

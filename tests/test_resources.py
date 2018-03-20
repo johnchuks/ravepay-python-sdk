@@ -54,6 +54,10 @@ class TestTransaction(unittest.TestCase):
                                      {'seckey': 'dummy', 'error': False, 'Payment': 1200, 'id': 2})
         self.assertTrue(response)
 
+    def test_stop_recurring_payment_exception(self):
+        payload = dict(error=False)
+        self.assertRaises(KeyError, Transaction.stop_recurring_payment,payload, api=self.new_api)
+
     @patch('ravepaypysdk.resources.Create.create')
     def test_verify_transaction(self, mock):
         path = '/flwv3-pug/getpaidx/api/verify'
@@ -106,6 +110,9 @@ class TestPayment(unittest.TestCase):
                                          'client': b'Zah+qD4JviOdUFttZL7d0MgB/LPtEW4Gz7werMMDtOIWZLCGeZ7hRb0PlZbPU6JfELIgpyUP/L9ylb58B6EpXGPYHhYjC/Uza94nb4ZLiJM=',
                                          'PBFPubKey': 'dummy', 'alg': '3DES-24'})
 
+    def test_card_payment_exception(self):
+        self.assertRaises(KeyError, Payment.card, self.bank_payload, api=self.new_api)
+
     @patch('ravepaypysdk.resources.Create.create')
     def test_bank_account_direct_payment(self, mock):
         Payment.bank_account(self.bank_payload, api=self.new_api)
@@ -113,6 +120,9 @@ class TestPayment(unittest.TestCase):
                                      {
                                          'client': b'Zah+qD4JviOdUFttZL7d0D1iXdxyTXxBCbWZvXCfmUrkhNr7MxySJLe/01oZZxph27HEjbbOZVJCsD+WMA8Cjj78w8CcOF0t',
                                          'PBFPubKey': 'dummy', 'alg': '3DES-24'})
+
+    def test_bank_account_payment_exception(self):
+        self.assertRaises(KeyError, Payment.bank_account, self.card_payload, api=self.new_api)
 
     @patch('ravepaypysdk.resources.Create.create')
     def test_mpesa_direct_payment(self, mock):
@@ -122,6 +132,9 @@ class TestPayment(unittest.TestCase):
                                          'client': b'BX1KArxf7xAngqqNs/uWpMcxilwH0CmJ0pMwxLLFPtXClSO3y4oSqD78w8CcOF0t',
                                          'PBFPubKey': 'dummy', 'alg': '3DES-24'})
 
+    def test_mpesa_payment_exception(self):
+        self.assertRaises(KeyError, Payment.mpesa, self.card_payload, api=self.new_api)
+
     @patch('ravepaypysdk.resources.Create.create')
     def test_gh_money_payment(self, mock):
         Payment.ghana_mobile(self.gh_mobile_payload, self.new_api)
@@ -129,6 +142,9 @@ class TestPayment(unittest.TestCase):
                                      {
                                          'client': b'BX1KArxf7xAngqqNs/uWpF1xwWg3A0stKlGYVIidO/hNNG86I+JiSE7q7FFVlKolnQv3RdAjAqQu0ZCzmKFRog==',
                                          'PBFPubKey': 'dummy', 'alg': '3DES-24'})
+
+    def test_gh_money_payment_exception(self):
+        self.assertRaises(KeyError, Payment.ghana_mobile, self.card_payload, api=self.new_api)
 
     @patch('ravepaypysdk.resources.Create.create')
     def test_ussd_payment(self, mock):
@@ -138,6 +154,9 @@ class TestPayment(unittest.TestCase):
                                          'client': b'BX1KArxf7xCQvJirHHQBNK1AAZ9qzlza9vNv8GjMkIqsM6leOIFazg==',
                                          'PBFPubKey': 'dummy', 'alg': '3DES-24'})
 
+    def test_ussd_payment_exception(self):
+        self.assertRaises(KeyError, Payment.ussd, self.card_payload, api=self.new_api)
+
     @patch('ravepaypysdk.resources.Create.create')
     def test_tokenize_card(self, mock):
         path = 'flwv3-pug/getpaidx/api/tokenized/charge'
@@ -146,6 +165,8 @@ class TestPayment(unittest.TestCase):
                                      {'SECKEY': 'FLWSECK-cc8399cf35c2d1cfb62dd44c3c13f9ab-X', 'error': False,
                                       'cardno': '34343', 'cvv': '232', 'email': 'jb@gmail.com'})
 
+    def test_tokenize_exception(self):
+        self.assertRaises(KeyError, Payment.tokenize_card, self.mpesa_payload, api=self.new_api)
 
 class TestBank(unittest.TestCase):
     def setUp(self):
