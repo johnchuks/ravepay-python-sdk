@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/johnchuks/RavePay-SDK-Python.svg?branch=master)](https://travis-ci.org/johnchuks/RavePay-SDK-Python)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/johnchuks/RavePay-SDK-Python/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/johnchuks/RavePay-SDK-Python/?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/johnchuks/RavePay-SDK-Python/badge.svg?branch=master)](https://coveralls.io/github/johnchuks/RavePay-SDK-Python?branch=master)
+[![PyPI version](https://badge.fury.io/py/ravepaypysdk.svg)](https://badge.fury.io/py/ravepaypysdk)
 
 The RavePay Python SDK provides APIs to create, process and manage payments on the RavePay platform. The SDK fully supports the API
 
@@ -56,7 +57,6 @@ To start using the SDK ensure you have your public key and secret key instantiat
       if card_payment:
         return card_payment
       ```
-      The `payload` object should client data as show above 
 
   -  **Bank account payment**
      
@@ -127,7 +127,7 @@ To start using the SDK ensure you have your public key and secret key instantiat
 
      *Usage*
      ```
-     gh_mobile_payment = Payment.ghana_mobile(payloadm api=my_api)
+     gh_mobile_payment = Payment.ghana_mobile(payload, api=my_api)
      ```
 
   - The same payload format goes for the **USSD**, **MPESA** and **Ghana Mobile Money**. Kindly review the [API documentation](https://flutterwavedevelopers.readme.io/v1.0/reference#rave-parameters) to get the required field for each transaction
@@ -156,6 +156,7 @@ To start using the SDK ensure you have your public key and secret key instantiat
       ```
   
   - **verify transaction with xquery**
+
       *Usage*
       ```
       payload = {
@@ -169,6 +170,7 @@ To start using the SDK ensure you have your public key and secret key instantiat
       ```
 
   - **List all recurring transactions**
+
     *Usage*
     ```
     list_transactions  = Transaction.list_all_recurring(api=my_api)
@@ -176,6 +178,7 @@ To start using the SDK ensure you have your public key and secret key instantiat
 
 
   - **List single recurring transactions**
+
     *Usage*
     ```
     payload = {
@@ -226,7 +229,6 @@ To start using the SDK ensure you have your public key and secret key instantiat
     preauth_void_refund = PreAuthorization.void_or_refund(payload, api=my_api)
     ```
 
-    *Payload*
 
  ## Validate Ravepay charges
    This module validates RavePay payment transactions.
