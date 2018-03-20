@@ -1,4 +1,4 @@
-RavePay-SDK-Python
+RavePay-SDK-Python        
 ==================
 
 |Build Status| |Scrutinizer Code Quality| |Coverage Status|
@@ -33,23 +33,40 @@ instantiated with the ``Api`` object
 Payments (RavePay Direct Charge)
 --------------------------------
 
-Import the RavePay Payment module ``from ravepaypysdk import Payment``
+Import the RavePay Payment module 
+
+``from ravepaypysdk import Payment``
+
 There are 5 different ways to utilize RavePay’s direct charge for
 payment:
 
 -  **Card direct charge**
 
-   *Usage* \``\` payload = { “cardno”: “5438898014560229”, “cvv”: “789”,
-   “expirymonth”: “07”, “expiryyear”: “18”, “currency”: “NGN”, “pin”:
-   “7552”, “country”: “GH”, “amount”: “10”, “email”: “user@example.com”,
-   “phonenumber”: “1234555”, “suggested_auth”: “PIN”, “firstname”:
-   “user1”, “lastname”: “user2”, “IP”: “355426087298442”, “txRef”:
-   “MC-7663-YU”, “device_fingerprint”:
-   “69e6b7f0b72037aa8428b70fbe03986c” } card_payment =
-   Payment.card(payload, api=my_api)
+   *Usage* 
 
-   if card_payment: return card_payment \`\`\ ``The``\ payload\` object
-   should client data as show above
+   ::
+
+      payload = { 
+        “cardno”: “5438898014560229”, 
+        “cvv”: “789”,
+        “expirymonth”: “07”, 
+        “expiryyear”: “18”, 
+        “currency”: “NGN”, 
+        “pin”:“7552”, 
+        “country”: “GH”, 
+        “amount”: “10”, 
+        “email”: “user@example.com”,
+        “phonenumber”: “1234555”, 
+        “suggested_auth”: “PIN”, 
+        “firstname”:“user1”, 
+        “lastname”: “user2”, “IP”: “355426087298442”, “txRef”:
+        “MC-7663-YU”, “device_fingerprint”:
+        “69e6b7f0b72037aa8428b70fbe03986c” 
+      } 
+     card_payment = Payment.card(payload, api=my_api)
+
+     if card_payment: 
+        return card_payment 
 
 -  **Bank account payment**
 
@@ -127,7 +144,7 @@ payment:
 
    ::
 
-       gh_mobile_payment = Payment.ghana_mobile(payloadm api=my_api)
+       gh_mobile_payment = Payment.ghana_mobile(payload, api=my_api)
 
 -  The same payload format goes for the **USSD**, **MPESA** and **Ghana
    Mobile Money**. Kindly review the `API
@@ -149,22 +166,32 @@ Import the transaction module
 
 -  **Verify your transaction**
 
-   *Usage* \``\` payload = { “flw_ref”:
-   “FLW-MOCK-6f52518a2ecca2b6b090f9593eb390ce”, # unique reference for
-   the transaction “tx_ref”:“dummy”, # merchants unique reference number
-   “normalize”: “1” } verify_transaction = Transaction.verify(payload,
-   api=my_api)
+   *Usage*
+   
+   ::
+ 
+      payload = { 
+       “flw_ref”:“FLW-MOCK-6f52518a2ecca2b6b090f9593eb390ce”, # unique reference 
+       “tx_ref”:“dummy”, # merchants unique reference number
+       “normalize”: “1” 
+     } 
+     verify_transaction = Transaction.verify(payload, api=my_api)
 
-   \``\`
 
--  **verify transaction with xquery** *Usage* \``\` payload = {
-   “flwref”: “FLW-MOCK-6f52518a2ecca2b6b090f9593eb390ce”, # unique
-   reference for the transaction “txref”:“dummy”, # merchants unique
-   reference number “last_attempt”:“1”, # retrieves the last transaction
-   “only_successful”: “1” # retrieves only successful transaction }
+-  **verify transaction with xquery** 
+
+  *Usage* 
+  
+  ::
+    
+    payload = {
+      “flwref”: “FLW-MOCK-6f52518a2ecca2b6b090f9593eb390ce”, # unique reference 
+      “txref”:“dummy”, # merchants unique reference number 
+      “last_attempt”:“1”, # retrieves the last transaction
+      “only_successful”: “1” # retrieves only successful transaction 
+    }
    xquery_verify = Transaction.verify_query(payload, api=my_api)
 
-   \``\`
 
 -  **List all recurring transactions**
 
@@ -194,18 +221,21 @@ platform
 *Usage*
 
 Import the PreAuthorization module
-``from ravepaypysdk import PreAuthorization`` - **Preauthorization
-Capture**
+
+``from ravepaypysdk import PreAuthorization`` - 
+
+**Preauthorization Capture**
 
 ::
 
     *Usage*
-    ```
-    payload = {
-        "flwRef":"39448fhdhhfdhshshf" # add the required value
-    }
-    preauthorize_capture = PreAuthorization.capture(payload, api=my_api)
-    ```
+    ::
+      payload = {
+          "flwRef":"39448fhdhhfdhshshf" # add the required value
+      }
+      preauthorize_capture = PreAuthorization.capture(payload, api=my_api)
+   
+
 
 -  **Preauthorize Card transaction**
 
@@ -229,9 +259,12 @@ Capture**
        }
        preauth_void_refund = PreAuthorization.void_or_refund(payload, api=my_api)
 
-   *Payload*
+ 
 
-## Validate Ravepay charges This module validates RavePay payment
+Validate Ravepay charges 
+------------------------
+
+This module validates RavePay payment
 transactions.
 
 *Usage*
@@ -324,3 +357,4 @@ requests.
    :target: https://scrutinizer-ci.com/g/johnchuks/RavePay-SDK-Python/?branch=master
 .. |Coverage Status| image:: https://coveralls.io/repos/github/johnchuks/RavePay-SDK-Python/badge.svg?branch=master
    :target: https://coveralls.io/github/johnchuks/RavePay-SDK-Python?branch=master
+

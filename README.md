@@ -56,7 +56,6 @@ To start using the SDK ensure you have your public key and secret key instantiat
       if card_payment:
         return card_payment
       ```
-      The `payload` object should client data as show above 
 
   -  **Bank account payment**
      
@@ -127,7 +126,7 @@ To start using the SDK ensure you have your public key and secret key instantiat
 
      *Usage*
      ```
-     gh_mobile_payment = Payment.ghana_mobile(payloadm api=my_api)
+     gh_mobile_payment = Payment.ghana_mobile(payload, api=my_api)
      ```
 
   - The same payload format goes for the **USSD**, **MPESA** and **Ghana Mobile Money**. Kindly review the [API documentation](https://flutterwavedevelopers.readme.io/v1.0/reference#rave-parameters) to get the required field for each transaction
@@ -156,6 +155,7 @@ To start using the SDK ensure you have your public key and secret key instantiat
       ```
   
   - **verify transaction with xquery**
+
       *Usage*
       ```
       payload = {
@@ -177,7 +177,7 @@ To start using the SDK ensure you have your public key and secret key instantiat
 
 
   - **List single recurring transactions**
-  
+
     *Usage*
     ```
     payload = {
@@ -228,7 +228,6 @@ To start using the SDK ensure you have your public key and secret key instantiat
     preauth_void_refund = PreAuthorization.void_or_refund(payload, api=my_api)
     ```
 
-    *Payload*
 
  ## Validate Ravepay charges
    This module validates RavePay payment transactions.
