@@ -47,16 +47,20 @@ account_payload = {
     "device_fingerprint": "69e6b7f0b72037aa8428b70fbe03986c"
 }
 
-encrypted_payload = encrypt_data(os.environ.get('SECRET_KEY'), json.dumps(client_payload))
+encrypted_payload = encrypt_data(os.environ.get('secret_key'), json.dumps(client_payload))
 
-payload = dict(PBFPubKey=os.environ.get('PUBLIC_KEY'), client=encrypted_payload, alg='3DES-24')
+payload = dict(PBFPubKey=os.environ.get('public_key'), client=encrypted_payload, alg='3DES-24')
 # validate_payload = dict(transaction_reference='FLW-MOCK-bad59ea46faf0f0e9935826893c3070b', otp='12345')
 #
-new_api = Api(secret_key=os.environ.get('SECRET_KEY'),
-              public_key=os.environ.get('PUBLIC_KEY'),
+new_api = Api(secret_key=os.environ.get('secret_key'),
+              public_key=os.environ.get('public_key'),
                             production=False)
-payment= Payment.bank_account(account_payload, api=new_api)
-print(payment, 'lllllll')
+
+single_payload = {
+    "txId": 12344
+}
+single_rec = Transaction.list_single_recurring(single_payload, api=new_api)
+print(single_rec)
 # payload = {
 #     'origin_currency': 'USD',
 #     'destination_currency': 'NGN',

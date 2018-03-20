@@ -1,11 +1,13 @@
 import os
 import unittest
 import json
+from collections import namedtuple
 from unittest.mock import Mock, patch
 
 from dotenv import find_dotenv, load_dotenv
 
 from ravepaypysdk.api import Api
+from ravepaypysdk.api_exceptions import ApiError
 
 load_dotenv(find_dotenv())
 
@@ -13,8 +15,8 @@ load_dotenv(find_dotenv())
 class ApiTest(unittest.TestCase):
     def setUp(self):
         self.api = Api(
-            secret_key=os.environ.get('SECRET_KEY'),
-            public_key=os.environ.get('PUBLIC_KEY'),
+            secret_key=os.environ.get('secret_key'),
+            public_key=os.environ.get('public_key'),
             production=False
         )
         self.new_api = Api()
@@ -56,6 +58,7 @@ class ApiTest(unittest.TestCase):
 
         self.api.request = Mock()
 
+
     def test_ravepay_config(self):
         self.api_dev = Api(
             public_key='dummy',
@@ -69,11 +72,11 @@ class ApiTest(unittest.TestCase):
         )
         self.assertEqual(self.api_dev.url, 'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com')
         self.assertEqual(self.api_live.url, 'https://api.ravepay.co')
-        self.assertEqual(self.api_dev.SECRET_KEY, 'dummy')
-        self.assertEqual(self.api_dev.PUBLIC_KEY, 'dummy')
+        self.assertEqual(self.api_dev.secret_key, 'dummy')
+        self.assertEqual(self.api_dev.public_key, 'dummy')
 
     def test_get(self):
-        params_test = dict(SECKEY=os.environ.get('SECRET_KEY'))
+        params_test = dict(SECKEY=os.environ.get('secret_key'))
         endpoint = '/merchant/subscriptions/list'
 
         self.api.get(endpoint, params_test)
@@ -81,6 +84,11 @@ class ApiTest(unittest.TestCase):
                                                  'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/merchant/subscriptions/list',
                                                  params=params_test, payload=None
                                                  )
+    def test_get_without_params(self):
+        endpoint = '/merchant/subscriptions/list'
+        self.api.get(endpoint)
+        self.api.request.assert_called_once_with('GET', 'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/merchant/subscriptions/list',
+                                                 params=None, payload=None)
 
     def test_post(self):
         endpoint = '/flwv3-pug/getpaidx/api/verify'
@@ -93,7 +101,7 @@ class ApiTest(unittest.TestCase):
 
     def test_put(self):
         endpoint = '/flwv3-pug/getpaidx/api/verify'
-        params = dict(SECKEY=os.environ.get('SECRET_KEY'))
+        params = dict(SECKEY=os.environ.get('secret_key'))
         self.api.put(endpoint, payload=self.account_attributes, query_string=params)
 
         self.api.request.assert_called_once_with(
@@ -139,6 +147,18 @@ class ApiTest(unittest.TestCase):
         response = self.new_api.request('GET', path)
 
         self.assertEqual(response['status_code'], 200)
+
+    @patch('ravepaypysdk.api_exceptions.ApiError')
+    def test_handle_error(self, mock):
+        self.Response = namedtuple('Response', 'status_code')
+        response = self.Response(status_code=400)
+        content = json.dumps(dict(title='rave api', body='sdk for rave', userId=1))
+        status_code = 400
+        Api.handle_response(response, content)
+        self.assertEqual(response.status_code, 400)
+
+    def test_repr(self):
+        self.assertEqual(repr(self.api), '**RavePayPYSDK**')
 
 
 

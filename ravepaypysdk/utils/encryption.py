@@ -1,7 +1,9 @@
+""" Module for encrypting payload sent for payment authorization """
+
 import base64
-import json
-from Crypto.Cipher import DES3
 import hashlib
+
+from Crypto.Cipher import DES3
 
 
 def get_key(secret_key):
@@ -28,5 +30,3 @@ def encrypt_data(secret_key, plain_text):
     plain_text = "{}{}".format(plain_text, "".join(chr(pad_diff) * pad_diff))
     encrypted = base64.b64encode(cipher.encrypt(plain_text))
     return encrypted
-
-

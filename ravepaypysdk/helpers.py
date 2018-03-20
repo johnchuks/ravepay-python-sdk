@@ -1,3 +1,8 @@
+"""
+This module contains the helper class
+for REST services
+"""
+
 
 class Create(object):
     """

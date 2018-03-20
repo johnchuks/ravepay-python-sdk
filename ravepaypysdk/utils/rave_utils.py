@@ -1,3 +1,5 @@
+""" Module for various utility or service functions"""
+
 import json
 import re
 from .encryption import encrypt_data
@@ -8,6 +10,7 @@ LIVE = 'https://api.ravepay.co'
 
 
 def get_url(mode):
+    """ Function for getting URL based on mode"""
     if mode == 'sandbox':
         return SANDBOX
 
@@ -39,8 +42,8 @@ def initialize_config(payload, api):
     Function for initializing payload for Rave direct charge
     """
     stringify_payload = json.dumps(payload)
-    public_key_algo_type_dict = dict(PBFPubKey=api.PUBLIC_KEY, alg='3DES-24')
-    encrypt_payload = encrypt_data(api.SECRET_KEY, stringify_payload)
+    public_key_algo_type_dict = dict(PBFPubKey=api.public_key, alg='3DES-24')
+    encrypt_payload = encrypt_data(api.secret_key, stringify_payload)
     encrypt_payload_dict = dict(client=encrypt_payload)
     new_payload = merge_dict(encrypt_payload_dict, public_key_algo_type_dict)
     return new_payload
