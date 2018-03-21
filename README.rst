@@ -351,8 +351,8 @@ requests.
 -  If you are unsure about certain areas in the project feel to ask for
    assistance.
 
-.. |Build Status| image:: https://travis-ci.org/johnchuks/RavePay-SDK-Python.svg?branch=master
-   :target: https://travis-ci.org/johnchuks/RavePay-SDK-Python
+.. |Build Status| image:: https://travis-ci.org/johnchuks/ravepay-python-sdk.svg?branch=master
+   :target: https://travis-ci.org/johnchuks/ravepay-python-sdk
 .. |Scrutinizer Code Quality| image:: https://scrutinizer-ci.com/g/johnchuks/RavePay-SDK-Python/badges/quality-score.png?b=master
    :target: https://scrutinizer-ci.com/g/johnchuks/RavePay-SDK-Python/?branch=master
 .. |Coverage Status| image:: https://coveralls.io/repos/github/johnchuks/RavePay-SDK-Python/badge.svg?branch=master

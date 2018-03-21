@@ -1,5 +1,5 @@
 # RavePay-SDK-Python
-[![Build Status](https://travis-ci.org/johnchuks/RavePay-SDK-Python.svg?branch=master)](https://travis-ci.org/johnchuks/RavePay-SDK-Python)
+[![Build Status](https://travis-ci.org/johnchuks/ravepay-python-sdk.svg?branch=master)](https://travis-ci.org/johnchuks/ravepay-python-sdk)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/johnchuks/RavePay-SDK-Python/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/johnchuks/RavePay-SDK-Python/?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/johnchuks/RavePay-SDK-Python/badge.svg?branch=master)](https://coveralls.io/github/johnchuks/RavePay-SDK-Python?branch=master)
 [![PyPI version](https://badge.fury.io/py/ravepaypysdk.svg)](https://badge.fury.io/py/ravepaypysdk)
