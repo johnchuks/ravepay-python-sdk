@@ -57,7 +57,6 @@ class Api(object):
         if self.payload is not None and self.query_string is None:
             response = requests.request(
                 method, url, data=self.payload, headers=http_header)
-            print(response.content.decode('utf-8'))
             return Api.handle_response(response, response.content.decode('utf-8'))
 
         if self.payload is None and self.query_string is None:

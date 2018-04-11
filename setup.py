@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 from codecs import open
 
 setup(name='ravepaypysdk',
-      version='1.0.0',
+      version='1.0.1',
       description='A Python library to consume the RavePay API',
       long_description=open('README.rst', 'r').read(),
       url='https://github.com/johnchuks/ravepay-python-sdk',

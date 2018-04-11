@@ -252,3 +252,82 @@ class Payment(Create):
             raise KeyError('You need to pass the same email \
              used in the initial charge')
         return cls.create(endpoint, api, token_payload)
+
+
+class PaymentPlan(Create, List):
+    """
+     Class for processing payment plan on the ravepay platform
+     """
+
+    @classmethod
+    def create_plan(cls, payload, api):
+        endpoint = 'v2/gpx/paymentplans/create'
+        secret_key_dict = dict(seckey=api.secret_key)
+        plan_payload = merge_dict(payload, secret_key_dict)
+        return cls.create(endpoint, api, plan_payload)
+
+    @classmethod
+    def fetch_all_plan(cls, api):
+        endpoint = 'v2/gpx/paymentplans/query'
+        secret_key_dict = dict(seckey=api.secret_key)
+        return cls.list(endpoint, api, secret_key_dict)
+
+    @classmethod
+    def fetch_single_plan(cls, params, api):
+        endpoint = 'v2/gpx/paymentplans/query'
+        secret_key_dict = dict(seckey=api.secret_key)
+        fetch_params = merge_dict(params, secret_key_dict)
+        return cls.list(endpoint, api, fetch_params)
+
+    @classmethod
+    def cancel_plan(cls, plan_id=None, api=None):
+        if plan_id is not None and api is not None:
+            endpoint = 'v2/gpx/paymentplans/{}/cancel'.format(plan_id)
+            secret_key_dict = dict(seckey=api.secret_key)
+            return cls.create(endpoint, api, secret_key_dict)
+
+    @classmethod
+    def edit_plan(cls, payload=None, plan_id=None, api=None):
+        if plan_id is not None and api is not None:
+            endpoint = 'v2/gpx/paymentplans/{}/edit'.format(plan_id)
+            secret_key_dict = dict(seckey=api.secret_key)
+            if payload is not None:
+                edit_payload = merge_dict(payload, secret_key_dict)
+                return cls.create(endpoint, api, edit_payload)
+            return cls.create(endpoint, api, secret_key_dict)
+
+
+class Subscriptions(Create, List):
+
+    @classmethod
+    def fetch_all(cls, api):
+        endpoint = 'v2/gpx/subscriptions/query'
+        secret_key_dict = dict(seckey=api.secret_key)
+        return cls.list(endpoint, api, secret_key_dict)
+
+    @classmethod
+    def fetch_single(cls, params=None, api=None):
+        endpoint = 'v2/gpx/subscriptions/query'
+        if params is not None:
+            secret_key = dict(seckey=api.secret_key)
+            fetch_params_dict = merge_dict(params, secret_key)
+            return cls.list(endpoint, api, fetch_params_dict)
+        return None
+
+    @classmethod
+    def cancel(cls, sub_id=None, api=None):
+        if sub_id is not None:
+            endpoint = 'v2/gpx/subscriptions/{}/cancel'.format(sub_id)
+            secret_key = dict(seckey=api.secret_key)
+            return cls.create(endpoint, api, secret_key)
+        return None
+    
+    @classmethod
+    def activate(cls, sub_id=None, api=None):
+        if sub_id is not None:
+            endpoint = 'v2/gpx/subscriptions/{}/activate'.format(sub_id)
+            secret_key = dict(seckey=api.secret_key)
+            return cls.create(endpoint, api, secret_key)
+        return None
+
+
