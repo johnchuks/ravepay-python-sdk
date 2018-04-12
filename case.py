@@ -4,11 +4,11 @@ import json
 from dotenv import find_dotenv, load_dotenv
 from ravepaypysdk.utils.encryption import encrypt_data
 from ravepaypysdk.api import Api
-from ravepaypysdk.resources import PreAuthorization, ValidateCharge, Transaction, Bank, Payment
+from ravepaypysdk.resources import PreAuthorization, ValidateCharge, Transaction, Bank, Payment, PaymentPlan
 
 load_dotenv(find_dotenv())
 
-url = "http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/charge"
+url = "https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/charge"
 
 client_payload = {
     "cardno": "5438898014560229",
@@ -57,17 +57,13 @@ new_api = Api(secret_key=os.environ.get('secret_key'),
                             production=False)
 
 single_payload = {
-    "txId": 12344
+    "amount": 3000,
+    "name": 'bosco pan',
+    "intervals": "daily",
+    "duration": 0
 }
-single_rec = Transaction.list_single_recurring(single_payload, api=new_api)
-print(single_rec)
-# payload = {
-#     'origin_currency': 'USD',
-#     'destination_currency': 'NGN',
-#     'amount': '200'
-# }
-# bank = Bank.get_forex(payload, api=new_api)
-# print(bank, '------')
-
-# response = requests.request('POST', url, data=payload)
-# print(response.text)
+params = {
+   'id': 70,
+}
+cancel_payment = PaymentPlan.edit_plan(plan_id=71, api=new_api)
+print(cancel_payment, '------->>>>')
