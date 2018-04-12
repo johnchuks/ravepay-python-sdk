@@ -3,7 +3,7 @@ import unittest
 from unittest.mock import patch
 from dotenv import load_dotenv, find_dotenv
 from ravepaypysdk.api import Api
-from ravepaypysdk.resources import Transaction, Payment, Bank, PreAuthorization, ValidateCharge
+from ravepaypysdk.resources import Transaction, Payment, Bank, PreAuthorization, ValidateCharge, PaymentPlan, Subscriptions
 
 load_dotenv(find_dotenv())
 
@@ -231,7 +231,7 @@ class TestPreauthorization(unittest.TestCase):
                 'SECKEY': 'FLWSECK-cc8399cf35c2d1cfb62dd44c3c13f9ab-X'}
         )
 
-    @patch('ravepaypysdk.resources.Create.create')
+    @patch('ravepaypysdk.helpers.Create.create')
     def test_void_refund(self, mock):
         path = '/flwv3-pug/getpaidx/api/refundorvoid'
         payload = dict(error=False, email='jb@gmail.com')
@@ -254,7 +254,7 @@ class TestValidateCharge(unittest.TestCase):
         self.card_path = '/flwv3-pug/getpaidx/api/validatecharge'
         self.account_path = '/flwv3-pug/getpaidx/api/validate'
 
-    @patch('ravepaypysdk.resources.Create.create')
+    @patch('ravepaypysdk.helpers.Create.create')
     def test_card_validation(self, mock):
         ValidateCharge.card(self.payload, api=self.api)
         mock.assert_called_once_with(
@@ -263,7 +263,7 @@ class TestValidateCharge(unittest.TestCase):
                 'email': 'jb@gmail.com', 'PBFPubKey': 'dummy'}
         )
 
-    @patch('ravepaypysdk.resources.Create.create')
+    @patch('ravepaypysdk.helpers.Create.create')
     def test_account_validation(self, mock):
         ValidateCharge.account(self.payload, api=self.api)
         mock.assert_called_once_with(
@@ -271,3 +271,151 @@ class TestValidateCharge(unittest.TestCase):
                 'error': False, 'cardno': '34343', 'cvv': '232',
                 'email': 'jb@gmail.com', 'PBFPubKey': 'dummy'}
         )
+
+
+class TestPaymentPlan(unittest.TestCase):
+    def setUp(self):
+        self.api = Api(
+            secret_key=os.environ.get('secret_key'),
+            public_key='dummy',
+            production=False
+        )
+        self.payload = dict(id=70, name='johnbosco ohia')
+        self.params = dict(id=70)
+        self.plan_id = 20
+
+
+    @patch('ravepaypysdk.helpers.Create.create')
+    def test_create_payment_plan(self, mock):
+        path = 'v2/gpx/paymentplans/create'
+        PaymentPlan.create_plan(self.payload, api=self.api)
+        mock.assert_called_once_with(
+            path, self.api, {
+                'id': 70, 'name': 'johnbosco ohia','seckey': self.api.secret_key
+            })
+
+    @patch('ravepaypysdk.helpers.List.list')
+    def test_fetch_all_payment_plans(self, mock):
+        path = 'v2/gpx/paymentplans/query'
+        PaymentPlan.fetch_all_plan(api=self.api)
+        mock.assert_called_once_with(
+            path, self.api, {
+                'seckey': self.api.secret_key
+            }
+        )
+
+    @patch('ravepaypysdk.helpers.List.list')
+    def test_fetch_single_payment(self, mock):
+        path = 'v2/gpx/paymentplans/query'
+        PaymentPlan.fetch_single_plan(self.params, api=self.api)
+        mock.assert_called_once_with(
+            path, self.api, {
+                'id': 70, 'seckey': self.api.secret_key
+            }
+        )
+
+    @patch('ravepaypysdk.helpers.Create.create')
+    def test_edit_plan(self, mock):
+        path = 'v2/gpx/paymentplans/{}/edit'.format(self.plan_id)
+        PaymentPlan.edit_plan(self.payload, self.plan_id, api=self.api)
+        mock.assert_called_once_with(
+            path, self.api, {
+                'id': 70, 'name': 'johnbosco ohia', 'seckey': self.api.secret_key
+            }
+        )
+
+    @patch('ravepaypysdk.helpers.Create.create')
+    def test_edit_plan_without_payload(self, mock):
+        path = 'v2/gpx/paymentplans/{}/edit'.format(self.plan_id)
+        PaymentPlan.edit_plan(payload=None, plan_id=self.plan_id, api=self.api)
+        mock.assert_called_once_with(
+            path, self.api, {
+                 'seckey': self.api.secret_key
+            }
+        )
+
+    @patch('ravepaypysdk.helpers.Create.create')
+    def test_cancel_payment_plan(self, mock):
+        path = 'v2/gpx/paymentplans/{}/cancel'.format(self.plan_id)
+        PaymentPlan.cancel_plan(self.plan_id, api=self.api)
+        mock.assert_called_once_with(
+            path, self.api, {
+                'seckey': self.api.secret_key
+            }
+        )
+
+    def test_invalid_cancel_payment_plan(self):
+        invalid_cancel_sub = PaymentPlan.cancel_plan(plan_id=None, api=self.api)
+        self.assertEqual(None, invalid_cancel_sub)
+
+
+class TestSubscriptions(unittest.TestCase):
+
+    def setUp(self):
+        self.api = Api(
+            secret_key=os.environ.get('secret_key'),
+            public_key='dummy',
+            production=False
+        )
+        self.payload = dict(id=70, name='johnbosco ohia')
+        self.params = dict(id=70)
+        self.sub_id = 20
+
+
+    @patch('ravepaypysdk.helpers.List.list')
+    def test_fetch_all_subscriptions(self, mock):
+        path =  'v2/gpx/subscriptions/query'
+        Subscriptions.fetch_all(api=self.api)
+        mock.assert_called_once_with(
+            path, self.api, {
+                'seckey': self.api.secret_key
+            }
+        )
+    @patch('ravepaypysdk.helpers.List.list')
+    def test_fetch_single_subscription(self, mock):
+        path = 'v2/gpx/subscriptions/query'
+        Subscriptions.fetch_single(self.params, api=self.api)
+        mock.assert_called_once_with(
+            path, self.api, {
+                'id': 70, 'seckey': self.api.secret_key
+            }
+        )
+
+    def test_invalid_fetch_single_subscription(self):
+        invalid_fetch_single_sub = Subscriptions.fetch_single(params=None, api=self.api)
+        self.assertEqual(None, invalid_fetch_single_sub)
+
+    @patch('ravepaypysdk.helpers.Create.create')
+    def test_cancel_subscription(self, mock):
+        path = 'v2/gpx/subscriptions/{}/cancel'.format(self.sub_id)
+        Subscriptions.cancel(sub_id=self.sub_id, api=self.api)
+        mock.assert_called_once_with(
+            path, self.api, {
+                'seckey': self.api.secret_key
+            }
+        )
+
+    def test_invalid_cancel_subscription(self):
+        invalid_cancel_sub = Subscriptions.cancel(sub_id=None, api=self.api)
+        self.assertEqual(None, invalid_cancel_sub)
+
+
+    @patch('ravepaypysdk.helpers.Create.create')
+    def test_activate_subscription(self, mock):
+        path = 'v2/gpx/subscriptions/{}/activate'.format(self.sub_id)
+        Subscriptions.activate(sub_id=self.sub_id, api=self.api)
+        mock.assert_called_once_with(
+            path, self.api, {
+                'seckey': self.api.secret_key
+            }
+        )
+
+    def test_invalid_activate_subscription(self):
+        invalid_activate_sub = Subscriptions.activate(sub_id=None, api=self.api)
+        self.assertEqual(None, invalid_activate_sub)
+
+
+
+
+
+

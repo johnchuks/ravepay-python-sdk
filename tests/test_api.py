@@ -70,7 +70,7 @@ class ApiTest(unittest.TestCase):
             secret_key='dummy',
             production=True
         )
-        self.assertEqual(self.api_dev.url, 'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com')
+        self.assertEqual(self.api_dev.url, 'https://ravesandboxapi.flutterwave.com')
         self.assertEqual(self.api_live.url, 'https://api.ravepay.co')
         self.assertEqual(self.api_dev.secret_key, 'dummy')
         self.assertEqual(self.api_dev.public_key, 'dummy')
@@ -81,13 +81,13 @@ class ApiTest(unittest.TestCase):
 
         self.api.get(endpoint, params_test)
         self.api.request.assert_called_once_with('GET',
-                                                 'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/merchant/subscriptions/list',
+                                                 'https://ravesandboxapi.flutterwave.com/merchant/subscriptions/list',
                                                  params=params_test, payload=None
                                                  )
     def test_get_without_params(self):
         endpoint = '/merchant/subscriptions/list'
         self.api.get(endpoint)
-        self.api.request.assert_called_once_with('GET', 'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/merchant/subscriptions/list',
+        self.api.request.assert_called_once_with('GET', 'https://ravesandboxapi.flutterwave.com/merchant/subscriptions/list',
                                                  params=None, payload=None)
 
     def test_post(self):
@@ -96,7 +96,7 @@ class ApiTest(unittest.TestCase):
 
         self.api.post(endpoint, payload)
         self.api.request.assert_called_once_with(
-            'POST', 'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/verify', payload=payload
+            'POST', 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/verify', payload=payload
         )
 
     def test_put(self):
@@ -105,7 +105,7 @@ class ApiTest(unittest.TestCase):
         self.api.put(endpoint, payload=self.account_attributes, query_string=params)
 
         self.api.request.assert_called_once_with(
-            'PUT', 'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/verify', params=params,
+            'PUT', 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/verify', params=params,
             payload=self.account_attributes,
         )
 
@@ -115,7 +115,7 @@ class ApiTest(unittest.TestCase):
                                                   "message": "USSD charges can only be done in Ghana Cedis"}}
         gh_money_charge = self.api.post('/flwv3-pug/getpaidx/api/charge', self.gh_money_payload)
         self.api.request.assert_called_once_with(
-            'POST', "http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/charge",
+            'POST', "https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/charge",
             payload=self.gh_money_payload
         )
         self.assertEqual(gh_money_charge.get('status'), 'error')

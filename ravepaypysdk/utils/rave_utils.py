@@ -5,7 +5,7 @@ import re
 from .encryption import encrypt_data
 
 
-SANDBOX = 'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com'
+SANDBOX = 'https://ravesandboxapi.flutterwave.com'
 LIVE = 'https://api.ravepay.co'
 
 

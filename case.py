@@ -8,7 +8,7 @@ from ravepaypysdk.resources import PreAuthorization, ValidateCharge, Transaction
 
 load_dotenv(find_dotenv())
 
-url = "http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/charge"
+url = "https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/charge"
 
 client_payload = {
     "cardno": "5438898014560229",

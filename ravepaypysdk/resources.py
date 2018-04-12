@@ -281,14 +281,15 @@ class PaymentPlan(Create, List):
 
     @classmethod
     def cancel_plan(cls, plan_id=None, api=None):
-        if plan_id is not None and api is not None:
+        if plan_id is not None:
             endpoint = 'v2/gpx/paymentplans/{}/cancel'.format(plan_id)
             secret_key_dict = dict(seckey=api.secret_key)
             return cls.create(endpoint, api, secret_key_dict)
+        return None
 
     @classmethod
     def edit_plan(cls, payload=None, plan_id=None, api=None):
-        if plan_id is not None and api is not None:
+        if plan_id is not None:
             endpoint = 'v2/gpx/paymentplans/{}/edit'.format(plan_id)
             secret_key_dict = dict(seckey=api.secret_key)
             if payload is not None:
@@ -321,7 +322,7 @@ class Subscriptions(Create, List):
             secret_key = dict(seckey=api.secret_key)
             return cls.create(endpoint, api, secret_key)
         return None
-    
+
     @classmethod
     def activate(cls, sub_id=None, api=None):
         if sub_id is not None:
