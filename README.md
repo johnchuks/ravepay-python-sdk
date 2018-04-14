@@ -261,6 +261,112 @@ To start using the SDK ensure you have your public key and secret key instantiat
     validate_bank_account_transac = ValidateCharge.account(payload, api=my_api)
     ```
 
+## Subscriptions
+  This module retrieves, cancels and activates subscriptions on the RavePay Platform
+
+  *Usage*
+
+  Import the subscriptions module
+
+  ```
+  from ravepaypysdk import Subscriptions
+
+  ```
+  - **Activate Subscription**
+
+    *Usage*
+    ```
+    #sub_id is the subscription id
+    activate_subscription = Subscriptions.activate(sub_id=50, api=my_api)
+    ```
+
+  - **Cancel Subscription**
+
+    *Usage*
+    ```
+    #sub_id is the subscription id
+    cancel_subscription = Subscriptions.cancel(sub_id=50, api=my_api)
+
+    ```
+  - **Fetch Single Subscription**
+
+    *Usage*
+    ```
+     #params is the subscription id
+    single_subscription = Subscriptions.fetch_single(params=70, api=my_api)
+    ```
+  
+  - **Fetch All Subscriptions**
+
+    *Usage*
+    ```
+    all_subscriptions = Subscriptions.fetch_all(api=my_api)
+    ```
+
+
+## Payment Plan
+   This module creates, retrieves, edit and cancel payment plans on the platform
+
+   *Usage*
+   
+   Import the Payment plan module
+   ```
+   from ravepaypysdk import PaymentPlan
+
+   #plan_id is the payment plan identifier
+   ```
+  
+  - **Create Payment Plan**
+
+    *Usage*
+    ```
+    payload = {
+      "amount": 3000,
+      "name": 'New User',
+      "intervals": "daily",
+      "duration": 0
+    }
+    create_plan = PaymentPlan.create(payload, api=my_api)
+    ```
+
+  - **Edit Payment Plan**
+
+    *Usage*
+    ```
+    payload = {
+      "amount": 1000,
+      "name": 'New User',
+      "intervals": "monthly",
+      "duration": 0
+    }
+   
+    edit_plan = PaymentPlan.edit_plan(payload, plan_id=60, api=my_api)
+
+    ```
+  
+  - **Cancel Payment**
+
+    *Usage*
+    ```
+    cancel_plan = PaymentPlan.cancel_plan(plan_id=60, api=my_api)
+
+    ```
+
+  - **Fetch Single Payment Plan**
+
+    *Usage*
+    ```
+    fetch_single_plan = PaymentPlan.fetch_single_plan(params=40, api=my_api)
+
+    ```
+  
+  - **Fetch All Payment Plans**
+
+    *Usage*
+    ```
+    fetch_all_plans = PaymentPlan.fetch_all_plan(api=my_api)
+    ```
+
 ## Miscellanous 
   This module gets the bank list and current forex rates
 
