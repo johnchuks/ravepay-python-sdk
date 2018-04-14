@@ -299,7 +299,6 @@ class PaymentPlan(Create, List):
 
 
 class Subscriptions(Create, List):
-
     @classmethod
     def fetch_all(cls, api):
         endpoint = 'v2/gpx/subscriptions/query'
@@ -330,5 +329,3 @@ class Subscriptions(Create, List):
             secret_key = dict(seckey=api.secret_key)
             return cls.create(endpoint, api, secret_key)
         return None
-
-
