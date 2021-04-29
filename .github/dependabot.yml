@@ -1,0 +1,22 @@
+version: 2
+updates:
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: python-dotenv
+    versions:
+    - 0.15.0
+    - 0.16.0
+  - dependency-name: urllib3
+    versions:
+    - 1.26.3
+  - dependency-name: coverage
+    versions:
+    - "5.4"
+  - dependency-name: coveralls
+    versions:
+    - 3.0.0
